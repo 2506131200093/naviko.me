@@ -9,114 +9,94 @@
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=Sora:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Clash+Display:wght@600;700&amp;display=swap" rel="stylesheet">
   <style>
     html, body {
       height: 100%;
     }
     body {
       margin: 0;
-      font-family: 'Outfit', sans-serif;
-      background: #0a0c14;
-      color: #f5f7fb;
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      color: #1a1a1a;
       overflow: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
     .app-shell {
       height: 100%;
       width: 100%;
       overflow: auto;
       position: relative;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(106, 227, 255, 0.14), transparent 28%),
-        radial-gradient(circle at 80% 0%, rgba(255, 184, 77, 0.12), transparent 22%),
-        radial-gradient(circle at 80% 80%, rgba(134, 239, 172, 0.10), transparent 24%),
-        linear-gradient(180deg, #090b12 0%, #0f1322 55%, #0a0c14 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+      transition: background 0.3s ease;
     }
-    .grid-overlay {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-      background-size: 34px 34px;
-      mask-image: linear-gradient(180deg, rgba(0,0,0,0.8), transparent);
+    h1, h2, h3 {
+      font-family: 'Clash Display', sans-serif;
     }
-    .glow-line {
-      background: linear-gradient(90deg, transparent, rgba(106, 227, 255, 0.9), transparent);
-      height: 1px;
-      width: 100%;
-      opacity: 0.8;
+    .focus-ring:focus-visible {
+      outline: 2px solid #2563eb;
+      outline-offset: 2px;
     }
-    .hero-card,
-    .product-card,
-    .mini-card {
-      background: rgba(15, 20, 35, 0.72);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-    }
-    .hero-card {
-      animation: riseIn 0.8s ease-out both;
-    }
-    .stagger-1 { animation: riseIn 0.9s ease-out 0.08s both; }
-    .stagger-2 { animation: riseIn 0.9s ease-out 0.16s both; }
-    .stagger-3 { animation: riseIn 0.9s ease-out 0.24s both; }
-    .stagger-4 { animation: riseIn 0.9s ease-out 0.32s both; }
-    .product-card {
-      transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
-    }
-    .product-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(106, 227, 255, 0.55);
-      box-shadow: 0 24px 70px rgba(8, 12, 24, 0.55);
-      background: rgba(18, 24, 42, 0.92);
-    }
-    .shine-btn {
-      position: relative;
-      overflow: hidden;
-    }
-    .shine-btn::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -140%;
-      width: 120%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
-      transform: skewX(-22deg);
-      transition: left 0.7s ease;
-    }
-    .shine-btn:hover::after {
-      left: 140%;
-    }
-    .tag-pill {
-      background: rgba(106, 227, 255, 0.12);
-      border: 1px solid rgba(106, 227, 255, 0.28);
-    }
-    .search-input::placeholder {
-      color: rgba(245,247,251,0.52);
-    }
-    .empty-state {
-      display: none;
-    }
-    .stats-chip {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-    @keyframes riseIn {
+    @keyframes slideInUp {
       from {
         opacity: 0;
-        transform: translateY(22px);
+        transform: translateY(24px);
       }
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-    .focus-ring:focus-visible {
-      outline: 2px solid #6ae3ff;
-      outline-offset: 2px;
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-in {
+      animation: slideInUp 0.6s ease-out;
+    }
+    .animate-delay-1 { animation-delay: 0.1s; }
+    .animate-delay-2 { animation-delay: 0.2s; }
+    .animate-delay-3 { animation-delay: 0.3s; }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      border-color: #2563eb;
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.1);
+      transform: translateY(-2px);
+    }
+    .btn-primary {
+      background: #2563eb;
+      color: #ffffff;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: #2563eb;
+      border: 1.5px solid #2563eb;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .btn-secondary:hover {
+      background: #2563eb;
+      color: #ffffff;
     }
   </style>
   <style>body { box-sizing: border-box; }</style>
@@ -124,405 +104,405 @@
  </head>
  <body class="h-full">
   <div class="app-shell h-full w-full">
-   <div class="grid-overlay"></div>
-   <header class="relative z-10">
-    <div class="max-w-7xl mx-auto px-6 md:px-10 pt-6">
-     <nav class="hero-card rounded-3xl px-5 md:px-8 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-      <div class="flex items-center gap-3">
-       <div id="brandBadge" class="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-950 font-extrabold shadow-lg" style="background:#6ae3ff;">
-        N
-       </div>
-       <div>
-        <p id="brandName" class="text-xl md:text-2xl font-extrabold tracking-wide" style="font-family:'Sora', sans-serif;">Naviko</p>
-        <p class="text-sm text-white/60">Digital assets • bundles • templates</p>
-       </div>
-      </div>
-      <div class="flex flex-wrap items-center gap-3">
-       <a href="#products" class="focus-ring text-sm font-medium text-white/80 hover:text-white transition">Products</a> <a href="#about" class="focus-ring text-sm font-medium text-white/80 hover:text-white transition">Why Naviko</a> <a href="#footer" class="focus-ring text-sm font-medium text-white/80 hover:text-white transition">Contact</a> <button id="navButton" class="focus-ring shine-btn rounded-full px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:scale-[1.02]" style="background:#ffb84d;"> Explore Store </button>
-      </div>
+   <!-- HEADER/NAV -->
+   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-gray-200 transition-colors">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+     <div class="flex items-center gap-3">
+      <svg class="w-10 h-10" viewbox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+       <defs>
+        <lineargradient id="navLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+         <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+         <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+        </lineargradient>
+       </defs> <!-- Background circle --> <circle cx="20" cy="20" r="19" fill="url(#navLogoGrad)" /> <!-- Navigation compass/arrow shape --> <g transform="translate(20, 20)">
+        <!-- North arrow -->
+        <path d="M 0 -8 L 3 -2 L 0 -1 L -3 -2 Z" fill="white" /> <!-- East arrow -->
+        <path d="M 8 0 L 2 3 L 1 0 L 2 -3 Z" fill="white" opacity="0.8" /> <!-- South arrow -->
+        <path d="M 0 8 L -3 2 L 0 1 L 3 2 Z" fill="white" opacity="0.6" /> <!-- Center circle -->
+        <circle cx="0" cy="0" r="2" fill="white" />
+       </g>
+      </svg>
+      <h1 id="brandName" class="text-2xl font-bold text-gray-900">Naviko</h1>
+     </div>
+     <nav class="hidden md:flex items-center gap-8">
+      <a href="#features" class="text-gray-600 hover:text-gray-900 transition">Features</a> <a href="#products" class="text-gray-600 hover:text-gray-900 transition">Products</a> <a href="#buying-process" class="text-gray-600 hover:text-gray-900 transition">How to Buy</a> <a href="#team" class="text-gray-600 hover:text-gray-900 transition">Team</a> <a href="#contact" class="text-gray-600 hover:text-gray-900 transition">Contact</a> <a href="#privacy" class="text-gray-600 hover:text-gray-900 transition">Privacy</a>
      </nav>
     </div>
    </header>
-   <main class="relative z-10">
-    <section class="max-w-7xl mx-auto px-6 md:px-10 pt-8 md:pt-10">
-     <div class="hero-card rounded-[2rem] p-6 md:p-10 lg:p-12 overflow-hidden relative">
-      <div class="absolute top-0 left-0 right-0 opacity-70">
-       <div class="glow-line"></div>
-      </div>
-      <div class="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 items-center">
-       <div class="stagger-1">
-        <div class="inline-flex items-center gap-2 tag-pill rounded-full px-4 py-2 text-sm text-white/85 mb-5">
-         <i data-lucide="sparkles" class="w-4 h-4"></i> Instant-access digital product marketplace
-        </div>
-        <h1 id="heroTitle" class="text-4xl md:text-6xl leading-tight font-extrabold tracking-tight max-w-3xl" style="font-family:'Sora', sans-serif;">Premium digital bundles built to save you time and grow faster.</h1>
-        <p id="heroSubtitle" class="mt-5 text-base md:text-xl text-white/70 max-w-2xl leading-relaxed">Discover templates, reels bundles, workflow packs, prompts, ebooks and creator-ready resources from Naviko — all in one sleek storefront.</p>
-        <div class="mt-7 flex flex-col sm:flex-row gap-4">
-         <a href="#products" id="heroButton" class="focus-ring shine-btn inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-4 text-base font-bold text-slate-950 transition hover:translate-y-[-2px]" style="background:#6ae3ff;"> Browse Products <i data-lucide="arrow-right" class="w-5 h-5"></i> </a> <button id="surpriseButton" class="focus-ring inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-4 text-base font-semibold text-white border border-white/10 hover:bg-white/5 transition"> Show Featured Picks <i data-lucide="star" class="w-5 h-5"></i> </button>
-        </div>
-        <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
-         <div class="stats-chip rounded-2xl p-4 stagger-1">
-          <p class="text-2xl font-extrabold">29+</p>
-          <p class="text-sm text-white/60">Digital products</p>
-         </div>
-         <div class="stats-chip rounded-2xl p-4 stagger-2">
-          <p class="text-2xl font-extrabold">Instant</p>
-          <p class="text-sm text-white/60">Ready to use</p>
-         </div>
-         <div class="stats-chip rounded-2xl p-4 stagger-3">
-          <p class="text-2xl font-extrabold">Creator</p>
-          <p class="text-sm text-white/60">Focused bundles</p>
-         </div>
-         <div class="stats-chip rounded-2xl p-4 stagger-4">
-          <p class="text-2xl font-extrabold">2026</p>
-          <p class="text-sm text-white/60">Fresh AI packs</p>
-         </div>
-        </div>
-       </div>
-       <aside class="mini-card rounded-[1.8rem] p-5 md:p-6 stagger-3" aria-label="Highlights">
-        <div class="flex items-center justify-between mb-5">
-         <h2 class="text-lg font-bold" style="font-family:'Sora', sans-serif;">Top categories</h2><i data-lucide="layers-3" class="w-5 h-5 text-white/70"></i>
-        </div>
-        <div class="space-y-3">
-         <div class="rounded-2xl border border-white/8 bg-white/5 p-4">
-          <p class="text-sm text-white/55">Templates &amp; Design</p>
-          <p class="text-lg font-semibold mt-1">Canva Templates, Festival Posters, T-Shirt Designs</p>
-         </div>
-         <div class="rounded-2xl border border-white/8 bg-white/5 p-4">
-          <p class="text-sm text-white/55">Reels &amp; Viral Content</p>
-          <p class="text-lg font-semibold mt-1">Cars, Motivation, Sanatan Dharma, Stock Market, Shark Tank</p>
-         </div>
-         <div class="rounded-2xl border border-white/8 bg-white/5 p-4">
-          <p class="text-sm text-white/55">AI &amp; Automation</p>
-          <p class="text-lg font-semibold mt-1">N8N Workflows, Prompt Collections, AI Ultimate Collection</p>
-         </div>
-        </div>
-        <div class="mt-5 rounded-2xl p-4" style="background:linear-gradient(135deg, rgba(255,184,77,0.18), rgba(106,227,255,0.12)); border:1px solid rgba(255,255,255,0.08);">
-         <p class="text-sm text-white/70">Naviko spotlight</p>
-         <p class="text-xl font-bold mt-1">Tools for creators, marketers and digital sellers</p>
-        </div>
-       </aside>
-      </div>
+   <main class="relative">
+    <!-- HERO SECTION -->
+    <section class="max-w-6xl mx-auto px-6 py-20 md:py-28 text-center animate-in">
+     <div class="mb-8">
+      <span class="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6">Welcome to Naviko</span>
+      <h1 id="heroTitle" class="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6">Digital products. Simplified.</h1>
+      <p id="heroSubtitle" class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">Premium templates, bundles, and resources that help creators, marketers, and entrepreneurs save time and grow faster.</p>
      </div>
-    </section>
-    <section id="about" class="max-w-7xl mx-auto px-6 md:px-10 pt-8 pb-12">
-     <div class="grid md:grid-cols-3 gap-4 mb-12">
-      <div class="product-card rounded-3xl p-6">
-       <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4" style="background:#6ae3ff; color:#0a0c14;">
-        <i data-lucide="zap" class="w-5 h-5"></i>
-       </div>
-       <h2 class="text-xl font-bold mb-2" style="font-family:'Sora', sans-serif;">Instant Access</h2>
-       <p class="text-white/68 leading-relaxed">A modern digital storefront feel with quick browsing, clean sections and smooth interactions.</p>
-      </div>
-      <div class="product-card rounded-3xl p-6">
-       <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4" style="background:#ffb84d; color:#0a0c14;">
-        <i data-lucide="package" class="w-5 h-5"></i>
-       </div>
-       <h2 class="text-xl font-bold mb-2" style="font-family:'Sora', sans-serif;">Massive Bundles</h2>
-       <p class="text-white/68 leading-relaxed">Showcase large-value collections clearly so visitors instantly understand what makes your offers special.</p>
-      </div>
-      <div class="product-card rounded-3xl p-6">
-       <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4" style="background:#f5f7fb; color:#0a0c14;">
-        <i data-lucide="badge-check" class="w-5 h-5"></i>
-       </div>
-       <h2 class="text-xl font-bold mb-2" style="font-family:'Sora', sans-serif;">Built for Selling</h2>
-       <p class="text-white/68 leading-relaxed">Designed like a premium catalog so your products feel organized, valuable and easy to explore.</p>
-      </div>
+     <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+      <button id="ctaButton" class="btn-primary rounded-lg px-8 py-3 text-lg focus-ring">Get Started</button> <button class="btn-secondary rounded-lg px-8 py-3 text-lg focus-ring">Learn More</button>
      </div>
-     <div class="max-w-2xl mx-auto">
-      <div class="hero-card rounded-[2rem] p-8 md:p-12 text-center">
-       <div class="mb-6">
-        <div class="w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-6" style="background: linear-gradient(135deg, #6ae3ff, #ffb84d);"><i data-lucide="user" class="w-10 h-10" style="color:#0a0c14;"></i>
+    </section><!-- FEATURES SECTION -->
+    <section id="features" class="bg-gray-50 py-20">
+     <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+       <h2 class="text-4xl font-bold text-gray-900 mb-4">Why Choose Naviko?</h2>
+       <p class="text-gray-600 text-lg">Everything you need to succeed, in one place.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+       <div class="card rounded-xl p-8 animate-in animate-delay-1">
+        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+         <i data-lucide="zap" class="w-6 h-6 text-blue-600"></i>
         </div>
-      
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Instant Access</h3>
+        <p class="text-gray-600">Download and start using your products immediately. No delays, no hassle.</p>
+       </div>
+       <div class="card rounded-xl p-8 animate-in animate-delay-2">
+        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+         <i data-lucide="package" class="w-6 h-6 text-blue-600"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Curated Collections</h3>
+        <p class="text-gray-600">Hand-picked bundles and templates designed for creators and marketers.</p>
+       </div>
+       <div class="card rounded-xl p-8 animate-in animate-delay-3">
+        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+         <i data-lucide="check-circle" class="w-6 h-6 text-blue-600"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Premium Quality</h3>
+        <p class="text-gray-600">Professional-grade resources built to help you succeed.</p>
        </div>
       </div>
      </div>
-    </section>
-    <section id="team" class="max-w-7xl mx-auto px-6 md:px-10 py-10 md:py-14">
-     <div class="mb-10">
-      <p class="text-sm uppercase tracking-[0.28em] text-white/45">Our Team</p>
-      <h2 class="text-3xl md:text-5xl font-extrabold mt-3" style="font-family:'Sora', sans-serif;">Meet the people behind Naviko</h2>
-      <p class="text-white/65 mt-4 max-w-2xl">A passionate team of creators and builders dedicated to making digital products accessible and valuable for everyone.</p>
-     </div>
-     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="product-card rounded-3xl p-6 group">
-       <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style="background:linear-gradient(135deg, #6ae3ff, #ffb84d);"><i data-lucide="crown" class="w-7 h-7" style="color:#0a0c14;"></i>
-       </div>
-       <h3 class="text-xl font-bold mb-2" style="font-family:'Sora', sans-serif;">Naval Singhal</h3>
-       <p class="text-sm font-semibold text-white/60 mb-3">Founder &amp; CEO</p>
-       <p class="text-white/70 leading-relaxed text-sm">Visionary leader who started Naviko to empower creators. Naval drives overall strategy, innovation, and company growth with bold ambition and clear vision for the future.</p>
+    </section><!-- PRODUCTS SECTION -->
+    <section id="products" class="py-20">
+     <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+       <h2 id="productsTitle" class="text-4xl font-bold text-gray-900 mb-4">Our Products</h2>
+       <p id="productsSubtitle" class="text-gray-600 text-lg">Browse our collection</p><button id="addProductBtn" class="mt-6 btn-primary rounded-lg px-6 py-2 text-sm inline-flex items-center gap-2 focus-ring"> <i data-lucide="plus" class="w-4 h-4"></i> Add Product </button>
       </div>
-      <div class="product-card rounded-3xl p-6 group">
-       <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style="background:#6ae3ff; color:#0a0c14;"><i data-lucide="code-2" class="w-7 h-7"></i>
-       </div>
-       <h3 class="text-xl font-bold mb-2" style="font-family:'Sora', sans-serif;">Pratik Sanap</h3>
-       <p class="text-sm font-semibold text-white/60 mb-3">Developer</p>
-       <p class="text-white/70 leading-relaxed text-sm">Tech backbone of Naviko. Pratik builds and maintains the platform with expert coding skills, solves complex problems, and ensures everything runs smooth and fast.</p>
-      </div>
-      <div class="product-card rounded-3xl p-6 group">
-       <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style="background:#ffb84d; color:#0a0c14;"><i data-lucide="megaphone" class="w-7 h-7"></i>
-       </div>
-       <h3 class="text-xl font-bold mb-2" style="font-family:'Sora', sans-serif;">Chitransh Chandra</h3>
-       <p class="text-sm font-semibold text-white/60 mb-3">Marketing Manager</p>
-       <p class="text-white/70 leading-relaxed text-sm">Brand voice of Naviko. Chitransh promotes our products, runs engaging campaigns, manages social media, and deeply understands what customers need and want.</p>
-      </div>
-      <div class="product-card rounded-3xl p-6 group">
-       <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style="background:#86efac; color:#0a0c14;"><i data-lucide="compass" class="w-7 h-7"></i>
-       </div>
-       <h3 class="text-xl font-bold mb-2" style="font-family:'Sora', sans-serif;">Ashvin Choudhary</h3>
-       <p class="text-sm font-semibold text-white/60 mb-3">Advisor</p>
-       <p class="text-white/70 leading-relaxed text-sm">Strategic guide for Naviko. Ashvin provides business insights, mentorship, and expert advice to help the team make smart decisions and grow in the right direction.</p>
+      <div id="productsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       </div>
      </div>
-     <div class="hero-card rounded-3xl p-8 md:p-10 mt-10 text-center">
-      <p class="text-lg md:text-xl font-semibold text-white/90" style="font-family:'Sora', sans-serif;">Together, we're building the future of digital products—one bundle at a time.</p>
-      <p class="text-white/65 mt-3 max-w-2xl mx-auto">Our team combines leadership vision, technical excellence, marketing innovation, and strategic wisdom to deliver value to every creator and business that trusts Naviko.</p>
+    </section><!-- BUYING PROCESS SECTION -->
+    <section id="buying-process" class="bg-gradient-to-b from-gray-50 to-white py-20">
+     <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+       <h2 class="text-4xl font-bold text-gray-900 mb-4">How to Buy</h2>
+       <p class="text-gray-600 text-lg">Simple, secure, and straightforward. Get your products in 4 easy steps.</p>
+      </div>
+      <div class="grid md:grid-cols-4 gap-8">
+       <!-- Step 1 -->
+       <div class="relative">
+        <div class="flex flex-col items-center">
+         <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-6 relative z-10">
+          1
+         </div>
+         <div class="card rounded-xl p-8 text-center flex-1 w-full">
+          <i data-lucide="search" class="w-8 h-8 text-blue-600 mx-auto mb-4"></i>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Browse Products</h3>
+          <p class="text-gray-600">Explore our extensive collection of templates, bundles, and digital resources. Filter by category to find exactly what you need.</p>
+         </div>
+        </div>
+        <div class="hidden md:block absolute top-8 left-full w-8 h-0.5 bg-gradient-to-r from-blue-300 to-transparent"></div>
+       </div><!-- Step 2 -->
+       <div class="relative">
+        <div class="flex flex-col items-center">
+         <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-6 relative z-10">
+          2
+         </div>
+         <div class="card rounded-xl p-8 text-center flex-1 w-full">
+          <i data-lucide="shopping-cart" class="w-8 h-8 text-blue-600 mx-auto mb-4"></i>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Add to Cart</h3>
+          <p class="text-gray-600">Select the products you want and add them to your cart. You can review, compare, and modify your selections anytime.</p>
+         </div>
+        </div>
+        <div class="hidden md:block absolute top-8 left-full w-8 h-0.5 bg-gradient-to-r from-blue-300 to-transparent"></div>
+       </div><!-- Step 3 -->
+       <div class="relative">
+        <div class="flex flex-col items-center">
+         <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-6 relative z-10">
+          3
+         </div>
+         <div class="card rounded-xl p-8 text-center flex-1 w-full">
+          <i data-lucide="credit-card" class="w-8 h-8 text-blue-600 mx-auto mb-4"></i>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Secure Checkout</h3>
+          <p class="text-gray-600">Complete your purchase with our secure payment gateway. We accept all major payment methods and protect your data.</p>
+         </div>
+        </div>
+        <div class="hidden md:block absolute top-8 left-full w-8 h-0.5 bg-gradient-to-r from-blue-300 to-transparent"></div>
+       </div><!-- Step 4 -->
+       <div class="relative">
+        <div class="flex flex-col items-center">
+         <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-6 relative z-10">
+          4
+         </div>
+         <div class="card rounded-xl p-8 text-center flex-1 w-full">
+          <i data-lucide="download" class="w-8 h-8 text-blue-600 mx-auto mb-4"></i>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Instant Access</h3>
+          <p class="text-gray-600">Receive your products instantly after payment. Download files, access bundles, and start using them right away.</p>
+         </div>
+        </div>
+       </div>
+      </div><!-- Additional Info Cards -->
+      <div class="grid md:grid-cols-3 gap-8 mt-16">
+       <div class="card rounded-xl p-8 border-l-4 border-green-500">
+        <div class="flex items-start gap-4">
+         <i data-lucide="lock" class="w-6 h-6 text-green-600 flex-shrink-0 mt-1"></i>
+         <div>
+          <h4 class="text-lg font-bold text-gray-900 mb-2">100% Secure</h4>
+          <p class="text-gray-600 text-sm">Your payment information is encrypted and processed securely through trusted payment gateways.</p>
+         </div>
+        </div>
+       </div>
+       <div class="card rounded-xl p-8 border-l-4 border-purple-500">
+        <div class="flex items-start gap-4">
+         <i data-lucide="zap" class="w-6 h-6 text-purple-600 flex-shrink-0 mt-1"></i>
+         <div>
+          <h4 class="text-lg font-bold text-gray-900 mb-2">Instant Delivery</h4>
+          <p class="text-gray-600 text-sm">No waiting. Get access to your digital products immediately after successful payment confirmation.</p>
+         </div>
+        </div>
+       </div>
+       <div class="card rounded-xl p-8 border-l-4 border-orange-500">
+        <div class="flex items-start gap-4">
+         <i data-lucide="headphones" class="w-6 h-6 text-orange-600 flex-shrink-0 mt-1"></i>
+         <div>
+          <h4 class="text-lg font-bold text-gray-900 mb-2">24/7 Support</h4>
+          <p class="text-gray-600 text-sm">Our support team is available round the clock to help with any questions or issues you might have.</p>
+         </div>
+        </div>
+       </div>
+      </div>
      </div>
-    </section>
-    <section id="products" class="max-w-7xl mx-auto px-6 md:px-10 py-10 md:py-14">
-     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-8">
+    </section><!-- TEAM SECTION -->
+    <section id="team" class="py-20">
+     <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+       <h2 class="text-4xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
+       <p class="text-gray-600 text-lg">Passionate builders creating the future of digital commerce.</p>
+      </div>
+      <div class="grid md:grid-cols-4 gap-6">
+       <div class="card rounded-xl p-8 text-center animate-in animate-delay-1">
+        <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-400 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
+         NS
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">Naval Singhal</h3>
+        <p class="text-blue-600 font-semibold text-sm mb-3">Founder &amp; CEO</p>
+        <p class="text-gray-600 text-sm">Visionary leader driving strategy, innovation, and growth. Naval steers Naviko with bold ambition and a clear vision for the future.</p>
+       </div>
+       <div class="card rounded-xl p-8 text-center animate-in animate-delay-2">
+        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-400 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
+         PS
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">Pratik Sanap</h3>
+        <p class="text-blue-600 font-semibold text-sm mb-3">Developer</p>
+        <p class="text-gray-600 text-sm">Technical backbone of Naviko. Pratik builds and maintains our platform with expert coding, solving problems and ensuring smooth performance.</p>
+       </div>
+       <div class="card rounded-xl p-8 text-center animate-in animate-delay-3">
+        <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-400 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
+         CC
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">Chitransh Chandra</h3>
+        <p class="text-blue-600 font-semibold text-sm mb-3">Marketing Manager</p>
+        <p class="text-gray-600 text-sm">Brand voice of Naviko. Chitransh promotes products, runs campaigns, manages social media, and understands what customers truly need.</p>
+       </div>
+       <div class="card rounded-xl p-8 text-center animate-in animate-delay-3">
+        <div class="w-16 h-16 bg-gradient-to-br from-green-600 to-teal-400 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
+         AC
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">Ashvin Choudhary</h3>
+        <p class="text-blue-600 font-semibold text-sm mb-3">Advisor</p>
+        <p class="text-gray-600 text-sm">Strategic guide providing business insights and mentorship. Ashvin helps the team make smart decisions and grow in the right direction.</p>
+       </div>
+      </div>
+     </div>
+    </section><!-- CONTACT SECTION -->
+    <section id="contact" class="bg-gradient-to-br from-blue-600 to-blue-800 py-20">
+     <div class="max-w-2xl mx-auto px-6 text-center text-white">
+      <h2 id="contactTitle" class="text-4xl font-bold mb-4">Get in Touch</h2>
+      <p id="contactSubtitle" class="text-lg text-blue-100 mb-8">We'd love to hear from you. Connect with our team today.</p>
+      <form class="flex flex-col sm:flex-row gap-3" onsubmit="event.preventDefault();">
+       <input type="email" placeholder="Enter your email" class="flex-1 px-6 py-3 rounded-lg text-gray-900 focus-ring" required> <button type="submit" class="btn-primary rounded-lg px-8 py-3 bg-white text-blue-600 hover:bg-gray-100 focus-ring">Send</button>
+      </form>
+     </div>
+    </section><!-- FOOTER -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+     <div class="max-w-6xl mx-auto px-6 text-center">
+      <div class="mb-8"><a href="#privacy" class="text-gray-400 hover:text-white transition text-sm mr-6">Privacy Policy</a> <a href="#" class="text-gray-400 hover:text-white transition text-sm mr-6">Terms of Service</a> <a href="#contact" class="text-gray-400 hover:text-white transition text-sm">Contact</a>
+      </div>
+      <p>© 2024 Naviko. All rights reserved.</p>
+     </div>
+    </footer>
+   </main><!-- PRIVACY POLICY PAGE (Hidden, shows on demand) -->
+   <div id="privacyPage" class="hidden fixed inset-0 bg-white z-50 overflow-auto">
+    <div class="max-w-4xl mx-auto px-6 py-12"><button onclick="document.getElementById('privacyPage').classList.add('hidden'); document.body.style.overflow='auto';" class="mb-8 flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold"> <i data-lucide="arrow-left" class="w-5 h-5"></i> Back </button>
+     <h1 class="text-5xl font-bold text-gray-900 mb-12">Privacy Policy</h1>
+     <div class="space-y-8 text-gray-700 leading-relaxed">
       <div>
-       <p class="text-sm uppercase tracking-[0.28em] text-white/45">Product library</p>
-       <h2 class="text-3xl md:text-5xl font-extrabold mt-2" style="font-family:'Sora', sans-serif;">Explore Naviko’s digital collection</h2>
-       <p class="text-white/65 mt-3 max-w-2xl">Search through the full list and quickly spotlight the products your customers care about most.</p>
+       <h2 class="text-2xl font-bold text-gray-900 mb-3">1. Introduction</h2>
+       <p>At Naviko, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.</p>
       </div>
-      <div class="hero-card rounded-2xl p-3 w-full lg:w-[420px]">
-       <label for="productSearch" class="sr-only">Search products</label>
-       <div class="flex items-center gap-3">
-        <i data-lucide="search" class="w-5 h-5 text-white/60"></i> <input id="productSearch" type="text" class="search-input focus-ring w-full bg-transparent border-0 outline-none text-white py-2" placeholder="Search products like templates, reels, AI, fitness...">
-       </div>
+      <div>
+       <h2 class="text-2xl font-bold text-gray-900 mb-3">2. Information We Collect</h2>
+       <p class="mb-2">We may collect information about you in a variety of ways. The information we may collect on the site includes:</p>
+       <ul class="list-disc list-inside space-y-1 ml-2">
+        <li><strong>Personal Data:</strong> Name, email address, phone number, and other contact information you voluntarily provide.</li>
+        <li><strong>Payment Information:</strong> Transaction details necessary for processing purchases.</li>
+        <li><strong>Usage Data:</strong> Information about how you interact with our website, including pages visited and features used.</li>
+        <li><strong>Device Information:</strong> IP address, browser type, and device information.</li>
+       </ul>
+      </div>
+      <div>
+       <h2 class="text-2xl font-bold text-gray-900 mb-3">3. How We Use Your Information</h2>
+       <p class="mb-2">Naviko uses the collected information for various purposes:</p>
+       <ul class="list-disc list-inside space-y-1 ml-2">
+        <li>To provide and maintain our services</li>
+        <li>To process transactions and send related information</li>
+        <li>To send you updates, marketing communications, and promotional materials</li>
+        <li>To respond to your inquiries and provide customer support</li>
+        <li>To improve and optimize our website and services</li>
+        <li>To detect and prevent fraud or abuse</li>
+       </ul>
+      </div>
+      <div>
+       <h2 class="text-2xl font-bold text-gray-900 mb-3">4. Data Security</h2>
+       <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet is 100% secure.</p>
+      </div>
+      <div>
+       <h2 class="text-2xl font-bold text-gray-900 mb-3">5. Third-Party Sharing</h2>
+       <p>We do not sell, trade, or rent your personal information to third parties. We may share information with trusted partners who assist us in operating our website and conducting our business, provided they agree to keep this information confidential.</p>
+      </div>
+      <div>
+       <h2 class="text-2xl font-bold text-gray-900 mb-3">6. Cookies</h2>
+       <p>Our website may use cookies to enhance your experience. Cookies are small files that a site or its service provider transfers to your computer's hard drive through your Web browser. You can disable cookies through your browser settings, but this may affect your ability to use certain features.</p>
+      </div>
+      <div>
+       <h2 class="text-2xl font-bold text-gray-900 mb-3">7. Your Rights</h2>
+       <p class="mb-2">Depending on your location, you may have the following rights:</p>
+       <ul class="list-disc list-inside space-y-1 ml-2">
+        <li>The right to access your personal data</li>
+        <li>The right to request deletion of your data</li>
+        <li>The right to correct inaccurate data</li>
+        <li>The right to opt-out of marketing communications</li>
+       </ul>
+      </div>
+      <div>
+       <h2 class="text-2xl font-bold text-gray-900 mb-3">8. Contact Us</h2>
+       <p>If you have questions about this Privacy Policy or our privacy practices, please contact us at:</p>
+       <p class="mt-3 text-gray-900 font-semibold">Email: privacy@naviko.com</p>
+      </div>
+      <div>
+       <h2 class="text-2xl font-bold text-gray-900 mb-3">9. Policy Updates</h2>
+       <p>We reserve the right to update this Privacy Policy at any time. Changes will be effective immediately upon posting to the website. Your continued use of the site following the posting of updated terms means that you accept and agree to the changes.</p>
       </div>
      </div>
-     <div id="featuredStrip" class="hidden mb-6 rounded-3xl p-5 md:p-6 hero-card">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-       <div>
-        <p class="text-sm uppercase tracking-[0.25em] text-white/45">Featured picks</p>
-        <h3 class="text-2xl font-bold mt-2" style="font-family:'Sora', sans-serif;">Highlighted best-sellers from your catalog</h3>
-       </div>
-       <div class="flex flex-wrap gap-2">
-        <span class="tag-pill rounded-full px-4 py-2 text-sm">10,000+ Canvas Templates</span> <span class="tag-pill rounded-full px-4 py-2 text-sm">AI Ultimate Collection 2026</span> <span class="tag-pill rounded-full px-4 py-2 text-sm">4,000+ N8N Workflow Automation</span>
-       </div>
-      </div>
-     </div>
-     <div id="productGrid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5"></div>
-     <div id="emptyState" class="empty-state hero-card rounded-3xl p-8 text-center mt-6">
-      <div class="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4" style="background:#6ae3ff; color:#0a0c14;">
-       <i data-lucide="search-x" class="w-6 h-6"></i>
-      </div>
-      <h3 class="text-2xl font-bold" style="font-family:'Sora', sans-serif;">No matching product found</h3>
-      <p class="text-white/65 mt-2">Try a different keyword like reels, AI, templates, gym or automation.</p>
-     </div>
-    </section>
-   </main>
-   <footer id="footer" class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 pb-8">
-    <div class="hero-card rounded-[2rem] p-6 md:p-8 flex flex-col md:flex-row gap-5 md:items-center md:justify-between">
-     <div>
-      <h2 class="text-2xl font-extrabold" style="font-family:'Sora', sans-serif;">Ready to grow with Naviko?</h2>
-      <p id="footerText" class="text-white/65 mt-2">Your digital product catalog is ready to impress with a premium storefront look.</p>
-     </div><a href="#top" class="focus-ring shine-btn inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-4 font-bold text-slate-950 self-start md:self-auto" style="background:#ffb84d;"> Back to Top <i data-lucide="arrow-up-right" class="w-5 h-5"></i> </a>
     </div>
-   </footer>
+   </div>
   </div>
   <script>
-    const products = [
-      "10,000+ CANVAS TEMPLATES",
-      "11,000+ KIDS WORKSHEETS",
-      "500+ HULK REELS BUNDLE",
-      "500+ OBJECT TALKING REELS BUNDLE",
-      "1500+ PREMANANDJI MAHARAJ REELS BUNDLE",
-      "2500+ CARS 4K REELS BUNDLE",
-      "4,000+ N8N WORKFLOW AUTOMATION",
-      "AI ULTIMATE COLLECTION 2026",
-      "EBOOKS",
-      "LATEST - AI MONKEY VLOGING BUNDLE",
-      "LUXURY CLIPS",
-      "MAD SCIENTIST REELS BUNDLE",
-      "SATISFYING REELS",
-      "ULTIMATE PROMPT COLLECTION",
-      "22,00+ GYM & FITNESS REELS",
-      "AI LIFESTYLE MOTIVATIONAL BUNDLE",
-      "BUSINESS TIPES HINDI",
-      "CHINESS TIPS HINDI",
-      "FESTIVAL POSTERS",
-      "GYM GIRLS MOTIVATION REELS",
-      "KAPIL SHARMA REELS",
-      "KILLER CHATGPT PROMPTS HARNESS",
-      "MOTIVATION RELS",
-      "MOTIVATIONAL AI BUNDLE",
-      "OMEGLE VIDEO",
-      "SANATAN DHARMA REELS",
-      "SHARK TANK REELS",
-      "STOCK MARKET REELS",
-      "TRADING TIPS REELS BUNDLE",
-      "T-SHIRT DESIGNS"
-    ];
+    const defaultConfig = {
+      brand_name: "Naviko",
+      hero_title: "Digital products. Simplified.",
+      hero_subtitle: "Premium templates, bundles, and resources that help creators, marketers, and entrepreneurs save time and grow faster.",
+      cta_button: "Get Started",
+      products_title: "Our Products",
+      products_subtitle: "Browse our collection",
+      contact_title: "Get in Touch",
+      contact_subtitle: "We'd love to hear from you. Connect with our team today.",
+      primary_color: "#2563eb",
+      text_color: "#1a1a1a",
+      background_color: "#ffffff"
+    };
 
-    const categoryMap = [
-      { keyword: "TEMPLATE", category: "Templates" },
-      { keyword: "WORKSHEET", category: "Education" },
-      { keyword: "REELS", category: "Reels Bundle" },
-      { keyword: "WORKFLOW", category: "Automation" },
-      { keyword: "AI", category: "AI Tools" },
-      { keyword: "EBOOK", category: "Ebooks" },
-      { keyword: "PROMPT", category: "Prompts" },
-      { keyword: "POSTER", category: "Design Assets" },
-      { keyword: "T-SHIRT", category: "Merch Design" },
-      { keyword: "VIDEO", category: "Video Bundle" },
-      { keyword: "CLIPS", category: "Clips Pack" }
-    ];
+    let allProducts = [];
 
-    const iconMap = [
-      { keyword: "TEMPLATE", icon: "layout-template" },
-      { keyword: "WORKSHEET", icon: "book-open-check" },
-      { keyword: "REELS", icon: "clapperboard" },
-      { keyword: "WORKFLOW", icon: "git-branch-plus" },
-      { keyword: "AI", icon: "bot" },
-      { keyword: "EBOOK", icon: "book-text" },
-      { keyword: "PROMPT", icon: "sparkles" },
-      { keyword: "POSTER", icon: "image" },
-      { keyword: "T-SHIRT", icon: "shirt" },
-      { keyword: "VIDEO", icon: "film" },
-      { keyword: "CLIPS", icon: "scissors-square-dashed-bottom" }
-    ];
+    const colorMap = {
+      'layout-template': 'blue',
+      'book-open': 'purple',
+      'video': 'green',
+      'zap': 'cyan',
+      'brain': 'pink',
+      'file-text': 'amber',
+      'sparkles': 'lime',
+      'heart': 'sky',
+      'book': 'orange',
+      'image': 'yellow',
+      'trending-up': 'lime',
+      'shirt': 'pink',
+      'check-circle': 'emerald',
+      'package': 'indigo',
+      'search': 'blue'
+    };
 
-    const grid = document.getElementById('productGrid');
-    const searchInput = document.getElementById('productSearch');
-    const emptyState = document.getElementById('emptyState');
-    const featuredStrip = document.getElementById('featuredStrip');
-    const surpriseButton = document.getElementById('surpriseButton');
-    const navButton = document.getElementById('navButton');
+    function createProductElement(product) {
+      const colorClass = colorMap[product.icon] || 'blue';
+      const bgColor = `${colorClass}-100`;
+      const textColor = `${colorClass}-600`;
 
-    function getCategory(name) {
-      const match = categoryMap.find(item => name.toUpperCase().includes(item.keyword));
-      return match ? match.category : "Digital Bundle";
-    }
+      const div = document.createElement('div');
+      div.className = 'card rounded-xl p-6 animate-in';
+      div.dataset.productId = product.__backendId;
+      div.innerHTML = `
+        <div class="w-12 h-12 bg-${bgColor} rounded-lg flex items-center justify-center mb-3">
+          <i data-lucide="${product.icon}" class="w-6 h-6 text-${textColor}"></i>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-2">${product.name}</h3>
+        <p class="text-${textColor} font-semibold text-sm mb-4">${product.category}</p>
+        <p class="text-gray-600 text-sm mb-4">${product.description}</p>
+        <div class="flex items-center gap-2">
+          <span class="text-2xl font-bold text-gray-900">$${product.price}</span>
+          <button class="ml-auto btn-primary rounded-lg px-4 py-2 text-xs focus-ring add-to-cart">
+            <i data-lucide="shopping-cart" class="w-4 h-4 inline mr-1"></i> Add
+          </button>
+          <button class="btn-secondary rounded-lg px-3 py-2 text-xs focus-ring delete-product" title="Delete">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `;
 
-    function getIcon(name) {
-      const match = iconMap.find(item => name.toUpperCase().includes(item.keyword));
-      return match ? match.icon : "package-2";
-    }
-
-    function getAccent(name) {
-      const upper = name.toUpperCase();
-      if (upper.includes("AI") || upper.includes("PROMPT") || upper.includes("WORKFLOW")) return "#6ae3ff";
-      if (upper.includes("REELS") || upper.includes("VIDEO") || upper.includes("CLIPS")) return "#ffb84d";
-      if (upper.includes("TEMPLATE") || upper.includes("POSTER") || upper.includes("T-SHIRT")) return "#f5f7fb";
-      return "#86efac";
-    }
-
-    function renderProducts(filterText = "") {
-      grid.innerHTML = "";
-      const filtered = products.filter(product => product.toLowerCase().includes(filterText.toLowerCase()));
-
-      filtered.forEach((product, index) => {
-        const accent = getAccent(product);
-        const card = document.createElement('article');
-        card.className = 'product-card rounded-3xl p-5 md:p-6';
-        card.innerHTML = `
-          <div class="flex items-start justify-between gap-4">
-            <div class="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0" style="background:${accent}; color:#0a0c14;">
-              <i data-lucide="${getIcon(product)}" class="w-5 h-5"></i>
-            </div>
-            <span class="tag-pill rounded-full px-3 py-1.5 text-xs font-medium text-white/85">${getCategory(product)}</span>
-          </div>
-          <h3 class="mt-5 text-xl font-bold leading-snug" style="font-family:'Sora', sans-serif;">${product}</h3>
-          <p class="mt-3 text-white/62 leading-relaxed">Premium digital product from Naviko, presented with a high-value catalog style for fast discovery.</p>
-          <div class="mt-5 flex items-center justify-between gap-3">
-            <span class="text-sm text-white/45">Digital download</span>
-            <button class="focus-ring shine-btn inline-flex items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-950" style="background:${accent};">
-              View Product
-              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-            </button>
-          </div>
-        `;
-        card.style.animation = `riseIn 0.7s ease-out ${Math.min(index * 0.04, 0.4)}s both`;
-        grid.appendChild(card);
+      const deleteBtn = div.querySelector('.delete-product');
+      deleteBtn.addEventListener('click', async () => {
+        if (confirm('Delete this product?')) {
+          const result = await window.dataSdk.delete(product);
+          if (!result.isOk) {
+            alert('Failed to delete product: ' + result.error.message);
+          }
+        }
       });
 
-      emptyState.style.display = filtered.length ? 'none' : 'block';
-      if (window.lucide) lucide.createIcons();
+      div.querySelector('.add-to-cart').addEventListener('click', () => {
+        alert(`${product.name} added to cart! Price: $${product.price}`);
+      });
+
+      return div;
     }
 
-    searchInput.addEventListener('input', function () {
-      renderProducts(this.value);
-    });
-
-    surpriseButton.addEventListener('click', function () {
-      featuredStrip.classList.toggle('hidden');
-      if (!featuredStrip.classList.contains('hidden')) {
-        featuredStrip.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const dataHandler = {
+      onDataChanged(data) {
+        allProducts = data;
+        const container = document.getElementById('productsContainer');
+        container.innerHTML = '';
+        data.forEach(product => {
+          container.appendChild(createProductElement(product));
+        });
+        if (window.lucide) lucide.createIcons();
       }
-    });
-
-    navButton.addEventListener('click', function () {
-      document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-
-    const defaultConfig = {
-      background_color: "#0a0c14",
-      surface_color: "#0f1423",
-      text_color: "#f5f7fb",
-      primary_action_color: "#6ae3ff",
-      secondary_action_color: "#ffb84d",
-      font_family: "Sora",
-      font_size: 16,
-      brand_name: "Naviko",
-      hero_title: "Premium digital bundles built to save you time and grow faster.",
-      hero_subtitle: "Discover templates, reels bundles, workflow packs, prompts, ebooks and creator-ready resources from Naviko — all in one sleek storefront.",
-      button_text: "Browse Products",
-      footer_text: "Your digital product catalog is ready to impress with a premium storefront look."
     };
 
     function applyConfig(config) {
       const finalConfig = { ...defaultConfig, ...config };
-      document.body.style.backgroundColor = finalConfig.background_color;
-      document.body.style.color = finalConfig.text_color;
-      document.querySelector('.app-shell').style.background = `
-        radial-gradient(circle at 20% 20%, rgba(106, 227, 255, 0.14), transparent 28%),
-        radial-gradient(circle at 80% 0%, rgba(255, 184, 77, 0.12), transparent 22%),
-        radial-gradient(circle at 80% 80%, rgba(134, 239, 172, 0.10), transparent 24%),
-        linear-gradient(180deg, ${finalConfig.background_color} 0%, ${finalConfig.surface_color} 55%, ${finalConfig.background_color} 100%)
-      `;
-
+      
       document.getElementById('brandName').textContent = finalConfig.brand_name;
-      document.getElementById('brandBadge').textContent = (finalConfig.brand_name || 'N').trim().charAt(0).toUpperCase();
       document.getElementById('heroTitle').textContent = finalConfig.hero_title;
       document.getElementById('heroSubtitle').textContent = finalConfig.hero_subtitle;
-      document.getElementById('heroButton').childNodes[0].textContent = finalConfig.button_text + " ";
-      document.getElementById('navButton').textContent = "Explore Store";
-      document.getElementById('footerText').textContent = finalConfig.footer_text;
+      document.getElementById('ctaButton').textContent = finalConfig.cta_button;
+      document.getElementById('productsTitle').textContent = finalConfig.products_title;
+      document.getElementById('productsSubtitle').textContent = finalConfig.products_subtitle;
+      document.getElementById('contactTitle').textContent = finalConfig.contact_title;
+      document.getElementById('contactSubtitle').textContent = finalConfig.contact_subtitle;
+    }
 
-      document.getElementById('brandBadge').style.backgroundColor = finalConfig.primary_action_color;
-      document.getElementById('heroButton').style.backgroundColor = finalConfig.primary_action_color;
-      document.getElementById('heroButton').style.color = finalConfig.background_color;
-
-      document.getElementById('navButton').style.backgroundColor = finalConfig.secondary_action_color;
-      document.getElementById('navButton').style.color = finalConfig.background_color;
-
-      const footerButton = document.querySelector('footer a');
-      footerButton.style.backgroundColor = finalConfig.secondary_action_color;
-      footerButton.style.color = finalConfig.background_color;
-
-      document.querySelectorAll('.hero-card, .product-card, .mini-card, .stats-chip').forEach(el => {
-        el.style.backgroundColor = 'rgba(15, 20, 35, 0.72)';
-        el.style.borderColor = 'rgba(255,255,255,0.08)';
-      });
-
-      document.querySelectorAll('h1, h2, h3, #brandName').forEach(el => {
-        el.style.fontFamily = `${finalConfig.font_family}, 'Outfit', sans-serif`;
-      });
-      document.querySelectorAll('p, a, button, input, span, div').forEach(el => {
-        el.style.fontFamily = `'Outfit', ${finalConfig.font_family}, sans-serif`;
-      });
-
-      const base = Number(finalConfig.font_size) || 16;
-      document.getElementById('brandName').style.fontSize = `${base * 1.4}px`;
-      document.getElementById('heroTitle').style.fontSize = `${base * 2.8}px`;
-      document.getElementById('heroSubtitle').style.fontSize = `${base * 1.1}px`;
-      document.getElementById('heroButton').style.fontSize = `${base}px`;
-      document.getElementById('footerText').style.fontSize = `${base * 0.95}px`;
-      document.querySelectorAll('#productGrid h3').forEach(el => el.style.fontSize = `${base * 1.18}px`);
-      document.querySelectorAll('#productGrid p').forEach(el => el.style.fontSize = `${base * 0.92}px`);
+    // Initialize Data SDK
+    if (window.dataSdk) {
+      window.dataSdk.init(dataHandler).catch(e => console.error('Failed to init data SDK:', e));
     }
 
     if (window.elementSdk) {
@@ -534,70 +514,333 @@
         mapToCapabilities: (config) => ({
           recolorables: [
             {
-              get: () => config.background_color || defaultConfig.background_color,
+              get: () => config.primary_color || defaultConfig.primary_color,
               set: (value) => {
-                config.background_color = value;
-                window.elementSdk.setConfig({ background_color: value });
-              }
-            },
-            {
-              get: () => config.surface_color || defaultConfig.surface_color,
-              set: (value) => {
-                config.surface_color = value;
-                window.elementSdk.setConfig({ surface_color: value });
-              }
-            },
-            {
-              get: () => config.text_color || defaultConfig.text_color,
-              set: (value) => {
-                config.text_color = value;
-                window.elementSdk.setConfig({ text_color: value });
-              }
-            },
-            {
-              get: () => config.primary_action_color || defaultConfig.primary_action_color,
-              set: (value) => {
-                config.primary_action_color = value;
-                window.elementSdk.setConfig({ primary_action_color: value });
-              }
-            },
-            {
-              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
-              set: (value) => {
-                config.secondary_action_color = value;
-                window.elementSdk.setConfig({ secondary_action_color: value });
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
               }
             }
           ],
           borderables: [],
-          fontEditable: {
-            get: () => config.font_family || defaultConfig.font_family,
-            set: (value) => {
-              config.font_family = value;
-              window.elementSdk.setConfig({ font_family: value });
-            }
-          },
-          fontSizeable: {
-            get: () => config.font_size || defaultConfig.font_size,
-            set: (value) => {
-              config.font_size = value;
-              window.elementSdk.setConfig({ font_size: value });
-            }
-          }
+          fontEditable: undefined,
+          fontSizeable: undefined
         }),
         mapToEditPanelValues: (config) => new Map([
           ["brand_name", config.brand_name || defaultConfig.brand_name],
           ["hero_title", config.hero_title || defaultConfig.hero_title],
           ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
-          ["button_text", config.button_text || defaultConfig.button_text],
-          ["footer_text", config.footer_text || defaultConfig.footer_text]
+          ["cta_button", config.cta_button || defaultConfig.cta_button],
+          ["products_title", config.products_title || defaultConfig.products_title],
+          ["products_subtitle", config.products_subtitle || defaultConfig.products_subtitle],
+          ["contact_title", config.contact_title || defaultConfig.contact_title],
+          ["contact_subtitle", config.contact_subtitle || defaultConfig.contact_subtitle]
         ])
       });
     }
 
-    renderProducts();
+    // Default products - loaded on first visit
+    async function seedDefaultProducts() {
+      if (allProducts.length === 0) {
+        const defaultProducts = [
+          {
+            id: 'prod-1',
+            name: '10,000+ CANVAS TEMPLATES',
+            price: 99,
+            category: 'Templates',
+            description: 'Massive collection of 10,000+ professional canvas templates for all designs.',
+            icon: 'layout-template'
+          },
+          {
+            id: 'prod-2',
+            name: '11,000+ KIDS WORKSHEETS',
+            price: 79,
+            category: 'Educational',
+            description: 'Complete collection of 11,000+ educational kids worksheets.',
+            icon: 'book-open'
+          },
+          {
+            id: 'prod-3',
+            name: '500+ HULK REELS BUNDLE',
+            price: 49,
+            category: 'Reels Bundle',
+            description: '500+ high-energy Hulk-themed reels ready to use.',
+            icon: 'video'
+          },
+          {
+            id: 'prod-4',
+            name: '500+ OBJECT TALKING REELS BUNDLE',
+            price: 49,
+            category: 'Reels Bundle',
+            description: '500+ entertaining object talking reels for social media.',
+            icon: 'video'
+          },
+          {
+            id: 'prod-5',
+            name: '1500+ PREMANANDJI MAHARAJ REELS BUNDLE',
+            price: 59,
+            category: 'Reels Bundle',
+            description: '1500+ spiritual and motivational Premanandji Maharaj reels.',
+            icon: 'zap'
+          },
+          {
+            id: 'prod-6',
+            name: '2500+ CARS 4K REELS BUNDLE',
+            price: 69,
+            category: 'Reels Bundle',
+            description: '2500+ stunning 4K car reels for automotive content.',
+            icon: 'video'
+          },
+          {
+            id: 'prod-7',
+            name: '4,000+ N8N WORKFLOW AUTOMATION',
+            price: 89,
+            category: 'Automation',
+            description: '4,000+ N8N workflow automation templates and scripts.',
+            icon: 'sparkles'
+          },
+          {
+            id: 'prod-8',
+            name: 'AI ULTIMATE COLLECTION 2026',
+            price: 99,
+            category: 'AI Resources',
+            description: 'Ultimate collection of AI resources and tools for 2026.',
+            icon: 'brain'
+          },
+          {
+            id: 'prod-9',
+            name: 'EBOOKS',
+            price: 39,
+            category: 'Digital Books',
+            description: 'Comprehensive collection of digital eBooks on various topics.',
+            icon: 'file-text'
+          },
+          {
+            id: 'prod-10',
+            name: 'LATEST - AI MONKEY VLOGING BUNDLE',
+            price: 59,
+            category: 'Vlogs',
+            description: 'Latest AI-powered monkey vlogging bundle with editing templates.',
+            icon: 'video'
+          },
+          {
+            id: 'prod-11',
+            name: 'LUXURY CLIPS',
+            price: 44,
+            category: 'Video Clips',
+            description: 'High-end luxury lifestyle video clips for premium content.',
+            icon: 'video'
+          },
+          {
+            id: 'prod-12',
+            name: 'MAD SCIENTIST REELS BUNDLE',
+            price: 49,
+            category: 'Reels Bundle',
+            description: '500+ entertaining mad scientist themed reels.',
+            icon: 'video'
+          },
+          {
+            id: 'prod-13',
+            name: 'SATISFYING REELS',
+            price: 39,
+            category: 'Reels',
+            description: 'Collection of satisfying and ASMR reels for engagement.',
+            icon: 'video'
+          },
+          {
+            id: 'prod-14',
+            name: 'ULTIMATE PROMPT COLLECTION',
+            price: 49,
+            category: 'AI Resources',
+            description: 'Ultimate collection of ChatGPT and AI prompts.',
+            icon: 'brain'
+          },
+          {
+            id: 'prod-15',
+            name: '22,00+ GYM & FITNESS REELS',
+            price: 79,
+            category: 'Fitness',
+            description: '2,200+ gym and fitness workout reels for motivation.',
+            icon: 'zap'
+          },
+          {
+            id: 'prod-16',
+            name: 'AI LIFESTYLE MOTIVATIONAL BUNDLE',
+            price: 59,
+            category: 'Motivation',
+            description: 'AI-generated lifestyle motivational content bundle.',
+            icon: 'heart'
+          },
+          {
+            id: 'prod-17',
+            name: 'BUSINESS TIPS HINDI',
+            price: 34,
+            category: 'Education',
+            description: 'Business tips and strategies in Hindi language.',
+            icon: 'trending-up'
+          },
+          {
+            id: 'prod-18',
+            name: 'CHINESE TIPS HINDI',
+            price: 29,
+            category: 'Education',
+            description: 'Chinese language tips and learning resources in Hindi.',
+            icon: 'book-open'
+          },
+          {
+            id: 'prod-19',
+            name: 'FESTIVAL POSTERS',
+            price: 24,
+            category: 'Design',
+            description: 'Ready-to-use festival poster designs for all occasions.',
+            icon: 'image'
+          },
+          {
+            id: 'prod-20',
+            name: 'GYM GIRLS MOTIVATION REELS',
+            price: 39,
+            category: 'Fitness',
+            description: 'Motivational reels for girls in gym and fitness.',
+            icon: 'video'
+          },
+          {
+            id: 'prod-21',
+            name: 'KAPIL SHARMA REELS',
+            price: 44,
+            category: 'Comedy',
+            description: 'Comedy and funny reels inspired by Kapil Sharma style.',
+            icon: 'video'
+          },
+          {
+            id: 'prod-22',
+            name: 'KILLER CHATGPT PROMPTS HARNESS',
+            price: 54,
+            category: 'AI Resources',
+            description: 'Advanced ChatGPT prompts to harness AI power effectively.',
+            icon: 'brain'
+          },
+          {
+            id: 'prod-23',
+            name: 'MOTIVATION REELS',
+            price: 34,
+            category: 'Motivation',
+            description: 'Inspirational and motivational reels for daily boost.',
+            icon: 'zap'
+          },
+          {
+            id: 'prod-24',
+            name: 'MOTIVATIONAL AI BUNDLE',
+            price: 59,
+            category: 'Motivation',
+            description: 'Complete bundle of AI-generated motivational content.',
+            icon: 'heart'
+          },
+          {
+            id: 'prod-25',
+            name: 'OMEGLE VIDEO',
+            price: 29,
+            category: 'Video Content',
+            description: 'Omegle-style video interaction templates and scripts.',
+            icon: 'video'
+          },
+          {
+            id: 'prod-26',
+            name: 'SANATAN DHARMA REELS',
+            price: 49,
+            category: 'Spiritual',
+            description: 'Spiritual Sanatan Dharma educational and devotional reels.',
+            icon: 'zap'
+          },
+          {
+            id: 'prod-27',
+            name: 'SHARK TANK REELS',
+            price: 44,
+            category: 'Business',
+            description: 'Shark Tank inspired business and entrepreneurship reels.',
+            icon: 'trending-up'
+          },
+          {
+            id: 'prod-28',
+            name: 'STOCK MARKET REELS',
+            price: 49,
+            category: 'Finance',
+            description: 'Educational stock market and trading reels.',
+            icon: 'trending-up'
+          },
+          {
+            id: 'prod-29',
+            name: 'TRADING TIPS REELS BUNDLE',
+            price: 59,
+            category: 'Finance',
+            description: 'Complete trading tips and strategies reels bundle.',
+            icon: 'trending-up'
+          },
+          {
+            id: 'prod-30',
+            name: 'T-SHIRT DESIGNS',
+            price: 39,
+            category: 'Design',
+            description: 'Professional t-shirt design templates for print-on-demand.',
+            icon: 'shirt'
+          }
+        ];
+
+        for (const product of defaultProducts) {
+          const result = await window.dataSdk.create(product);
+          if (!result.isOk) {
+            console.error('Failed to seed product:', product.name, result.error);
+          }
+        }
+      }
+    }
+
+    // Add Product Handler
+    document.getElementById('addProductBtn').addEventListener('click', async () => {
+      const name = prompt('Product Name:');
+      if (!name) return;
+      
+      const price = parseFloat(prompt('Price ($):'));
+      if (isNaN(price)) return;
+      
+      const category = prompt('Category (e.g., Templates, Bundles):');
+      if (!category) return;
+
+      const description = prompt('Description:');
+      if (!description) return;
+
+      const newProduct = {
+        id: 'prod-' + Date.now(),
+        name: name,
+        price: price,
+        category: category,
+        description: description,
+        icon: 'package'
+      };
+
+      const result = await window.dataSdk.create(newProduct);
+      if (!result.isOk) {
+        alert('Failed to add product: ' + result.error.message);
+      }
+    });
+
+    // Seed products on first load if empty
+    setTimeout(() => {
+      if (allProducts.length === 0) {
+        seedDefaultProducts();
+      }
+    }, 500);
+
     applyConfig(defaultConfig);
     if (window.lucide) lucide.createIcons();
+
+    <!-- Privacy Policy link handler -->
+    document.addEventListener('click', (e) => {
+      if (e.target.getAttribute('href') === '#privacy') {
+        e.preventDefault();
+        document.getElementById('privacyPage').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        if (window.lucide) lucide.createIcons();
+      }
+    });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e138e2d7696b630',t:'MTc3NDMzMzA3NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e13e3eea6fa9aa7',t:'MTc3NDMzNjU4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
