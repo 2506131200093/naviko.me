@@ -1,837 +1,329 @@
 <!doctype html>
-<html lang="en" class="h-full">
+<html lang="en" class="h-full" style="scroll-behavior:smooth">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Naviko</title>
-  <script src="/_sdk/element_sdk.js"></script>
+  <title>NAVIKO — Digital Products Made Simple</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Clash+Display:wght@600;700&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script>
+tailwind.config={theme:{extend:{fontFamily:{heading:['Outfit','sans-serif'],body:['DM Sans','sans-serif']},colors:{navy:'#0a1628',royal:'#1e40af',sky:'#3b82f6',ice:'#dbeafe',pale:'#eff6ff'}}}}
+</script>
   <style>
-    html, body {
-      height: 100%;
-    }
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #ffffff;
-      color: #1a1a1a;
-      overflow: hidden;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    .app-shell {
-      height: 100%;
-      width: 100%;
-      overflow: auto;
-      position: relative;
-      background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
-      transition: background 0.3s ease;
-    }
-    h1, h2, h3 {
-      font-family: 'Clash Display', sans-serif;
-    }
-    .focus-ring:focus-visible {
-      outline: 2px solid #2563eb;
-      outline-offset: 2px;
-    }
-    @keyframes slideInUp {
-      from {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    @keyframes slideInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-12px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-in {
-      animation: slideInUp 0.6s ease-out;
-    }
-    .animate-delay-1 { animation-delay: 0.1s; }
-    .animate-delay-2 { animation-delay: 0.2s; }
-    .animate-delay-3 { animation-delay: 0.3s; }
-    .card {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
-    }
-    .card:hover {
-      border-color: #2563eb;
-      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.1);
-      transform: translateY(-2px);
-    }
-    .btn-primary {
-      background: #2563eb;
-      color: #ffffff;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      border: none;
-      cursor: pointer;
-    }
-    .btn-primary:hover {
-      background: #1d4ed8;
-      transform: translateY(-1px);
-    }
-    .btn-secondary {
-      background: transparent;
-      color: #2563eb;
-      border: 1.5px solid #2563eb;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .btn-secondary:hover {
-      background: #2563eb;
-      color: #ffffff;
-    }
-  </style>
+html,body{height:100%;margin:0;font-family:'DM Sans',sans-serif}
+*{box-sizing:border-box}
+.nav-glass{background:rgba(10,22,40,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.card-glass{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1)}
+.card-glass-light{background:rgba(255,255,255,.7);backdrop-filter:blur(12px);border:1px solid rgba(219,234,254,.6)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes pulse-glow{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.7;transform:scale(1.05)}}
+.float-anim{animation:float 6s ease-in-out infinite}
+.float-anim-d{animation:float 7s ease-in-out 1s infinite}
+.glow-pulse{animation:pulse-glow 4s ease-in-out infinite}
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+.hero-gradient{background:linear-gradient(135deg,#0a1628 0%,#1e3a5f 40%,#1e40af 100%)}
+.blue-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+</style>
   <style>body { box-sizing: border-box; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
- <body class="h-full">
-  <div class="app-shell h-full w-full"><!-- HEADER/NAV -->
-   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-gray-200 transition-colors">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-     <div class="flex items-center gap-3">
-      <svg class="w-10 h-10" viewbox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><defs>
-        <lineargradient id="navLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-         <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
-         <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
-        </lineargradient>
-       </defs> <!-- Background circle --> <circle cx="20" cy="20" r="19" fill="url(#navLogoGrad)" /> <!-- Navigation compass/arrow shape --> <g transform="translate(20, 20)"><!-- North arrow -->
-        <path d="M 0 -8 L 3 -2 L 0 -1 L -3 -2 Z" fill="white" /> <!-- East arrow -->
-        <path d="M 8 0 L 2 3 L 1 0 L 2 -3 Z" fill="white" opacity="0.8" /> <!-- South arrow -->
-        <path d="M 0 8 L -3 2 L 0 1 L 3 2 Z" fill="white" opacity="0.6" /> <!-- Center circle -->
-        <circle cx="0" cy="0" r="2" fill="white" />
-       </g>
-      </svg>
-      <h1 id="brandName" class="text-2xl font-bold text-gray-900">Naviko</h1>
+ <body class="h-full overflow-auto bg-white"><!-- NAV -->
+  <nav class="nav-glass fixed top-0 left-0 w-full z-50 border-b border-white/10 shadow-lg">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"><!-- Logo --> <a href="#hero" class="font-heading font-800 text-xl tracking-tight text-white hover:text-sky transition">NAV<span class="text-sky">IKO</span></a> <!-- Desktop Navigation -->
+    <div class="hidden md:flex items-center gap-8"><a href="#products" class="text-sm text-white/70 hover:text-white transition duration-300 font-medium">Products</a> <a href="#about" class="text-sm text-white/70 hover:text-white transition duration-300 font-medium">About</a> <a href="#founder" class="text-sm text-white/70 hover:text-white transition duration-300 font-medium">Founder</a> <a href="#why" class="text-sm text-white/70 hover:text-white transition duration-300 font-medium">Why NAVIKO</a> <a href="#notify" class="text-sm bg-sky hover:bg-blue-600 text-white px-6 py-2.5 rounded-full transition font-semibold shadow-lg shadow-sky/30">Get Notified</a>
+    </div><!-- Mobile Menu Button --> <button id="menuBtn" class="md:hidden text-white hover:text-sky transition duration-300" aria-label="Open menu"> <i data-lucide="menu" class="w-6 h-6"></i> </button>
+   </div><!-- Mobile Menu -->
+   <div id="mobileMenu" class="hidden md:hidden fixed top-16 left-0 right-0 bg-gradient-to-b from-navy to-navy/95 backdrop-blur-xl border-b border-white/10 shadow-xl max-h-[calc(100vh-64px)] overflow-y-auto">
+    <div class="px-4 py-6 space-y-2"><a href="#products" class="block text-white/80 hover:text-white hover:bg-white/5 text-base py-3 px-4 rounded-lg transition duration-300 font-medium">Products</a> <a href="#about" class="block text-white/80 hover:text-white hover:bg-white/5 text-base py-3 px-4 rounded-lg transition duration-300 font-medium">About</a> <a href="#founder" class="block text-white/80 hover:text-white hover:bg-white/5 text-base py-3 px-4 rounded-lg transition duration-300 font-medium">Founder</a> <a href="#why" class="block text-white/80 hover:text-white hover:bg-white/5 text-base py-3 px-4 rounded-lg transition duration-300 font-medium">Why NAVIKO</a>
+     <div class="border-t border-white/10 mt-4 pt-4"><a href="#notify" class="block text-center bg-sky hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg transition shadow-lg shadow-sky/30">Get Notified</a>
      </div>
-     <nav class="hidden md:flex items-center gap-8"><a href="#features" class="text-gray-600 hover:text-gray-900 transition">Features</a> <a href="#products" class="text-gray-600 hover:text-gray-900 transition">Products</a> <a href="#buying-process" class="text-gray-600 hover:text-gray-900 transition">How to Buy</a> <a href="#team" class="text-gray-600 hover:text-gray-900 transition">Team</a> <a href="#contact" class="text-gray-600 hover:text-gray-900 transition">Contact</a> <a href="#privacy" class="text-gray-600 hover:text-gray-900 transition">Privacy</a>
-     </nav>
     </div>
-   </header>
-   <main class="relative"><!-- HERO SECTION -->
-    <section class="max-w-6xl mx-auto px-6 py-20 md:py-28 text-center animate-in">
-     <div class="mb-8"><span class="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6">Welcome to Naviko</span>
-      <h1 id="heroTitle" class="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6">Digital products. Simplified.</h1>
-      <p id="heroSubtitle" class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">Premium templates, bundles, and resources that help creators, marketers, and entrepreneurs save time and grow faster.</p>
-     </div>
-     <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10"><button id="ctaButton" class="btn-primary rounded-lg px-8 py-3 text-lg focus-ring">Get Started</button> <button class="btn-secondary rounded-lg px-8 py-3 text-lg focus-ring">Learn More</button>
-     </div>
-    </section><!-- FEATURES SECTION -->
-    <section id="features" class="bg-gray-50 py-20">
-     <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-16">
-       <h2 class="text-4xl font-bold text-gray-900 mb-4">Why Choose Naviko?</h2>
-       <p class="text-gray-600 text-lg">Everything you need to succeed, in one place.</p>
-      </div>
-      <div class="grid md:grid-cols-3 gap-8">
-       <div class="card rounded-xl p-8 animate-in animate-delay-1">
-        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4"><i data-lucide="zap" class="w-6 h-6 text-blue-600"></i>
-        </div>
-        <h3 class="text-xl font-bold text-gray-900 mb-2">Instant Access</h3>
-        <p class="text-gray-600">Download and start using your products immediately. No delays, no hassle.</p>
-       </div>
-       <div class="card rounded-xl p-8 animate-in animate-delay-2">
-        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4"><i data-lucide="package" class="w-6 h-6 text-blue-600"></i>
-        </div>
-        <h3 class="text-xl font-bold text-gray-900 mb-2">Curated Collections</h3>
-        <p class="text-gray-600">Hand-picked bundles and templates designed for creators and marketers.</p>
-       </div>
-       <div class="card rounded-xl p-8 animate-in animate-delay-3">
-        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4"><i data-lucide="check-circle" class="w-6 h-6 text-blue-600"></i>
-        </div>
-        <h3 class="text-xl font-bold text-gray-900 mb-2">Premium Quality</h3>
-        <p class="text-gray-600">Professional-grade resources built to help you succeed.</p>
-       </div>
-      </div>
-     </div>
-    </section><!-- PRODUCTS SECTION -->
-    <section id="products" class="py-20">
-     <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-16">
-       <h2 id="productsTitle" class="text-4xl font-bold text-gray-900 mb-4">Our Products</h2>
-       <p id="productsSubtitle" class="text-gray-600 text-lg">Browse our collection</p><button id="addProductBtn" class="mt-6 btn-primary rounded-lg px-6 py-2 text-sm inline-flex items-center gap-2 focus-ring"> <i data-lucide="plus" class="w-4 h-4"></i> Add Product </button>
-      </div>
-      <div id="productsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      </div>
-     </div>
-    </section><!-- BUYING PROCESS SECTION -->
-    <section id="buying-process" class="bg-gradient-to-b from-gray-50 to-white py-20">
-     <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-16">
-       <h2 class="text-4xl font-bold text-gray-900 mb-4">How to Buy</h2>
-       <p class="text-gray-600 text-lg">Simple, secure, and straightforward. Get your products in 4 easy steps.</p>
-      </div>
-      <div class="grid md:grid-cols-4 gap-8"><!-- Step 1 -->
-       <div class="relative">
-        <div class="flex flex-col items-center">
-         <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-6 relative z-10">
-          1
-         </div>
-         <div class="card rounded-xl p-8 text-center flex-1 w-full"><i data-lucide="search" class="w-8 h-8 text-blue-600 mx-auto mb-4"></i>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Browse Products</h3>
-          <p class="text-gray-600">Explore our extensive collection of templates, bundles, and digital resources. Filter by category to find exactly what you need.</p>
-         </div>
-        </div>
-        <div class="hidden md:block absolute top-8 left-full w-8 h-0.5 bg-gradient-to-r from-blue-300 to-transparent"></div>
-       </div><!-- Step 2 -->
-       <div class="relative">
-        <div class="flex flex-col items-center">
-         <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-6 relative z-10">
-          2
-         </div>
-         <div class="card rounded-xl p-8 text-center flex-1 w-full"><i data-lucide="shopping-cart" class="w-8 h-8 text-blue-600 mx-auto mb-4"></i>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Add to Cart</h3>
-          <p class="text-gray-600">Select the products you want and add them to your cart. You can review, compare, and modify your selections anytime.</p>
-         </div>
-        </div>
-        <div class="hidden md:block absolute top-8 left-full w-8 h-0.5 bg-gradient-to-r from-blue-300 to-transparent"></div>
-       </div><!-- Step 3 -->
-       <div class="relative">
-        <div class="flex flex-col items-center">
-         <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-6 relative z-10">
-          3
-         </div>
-         <div class="card rounded-xl p-8 text-center flex-1 w-full"><i data-lucide="credit-card" class="w-8 h-8 text-blue-600 mx-auto mb-4"></i>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Secure Checkout</h3>
-          <p class="text-gray-600">Complete your purchase with our secure payment gateway. We accept all major payment methods and protect your data.</p>
-         </div>
-        </div>
-        <div class="hidden md:block absolute top-8 left-full w-8 h-0.5 bg-gradient-to-r from-blue-300 to-transparent"></div>
-       </div><!-- Step 4 -->
-       <div class="relative">
-        <div class="flex flex-col items-center">
-         <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-6 relative z-10">
-          4
-         </div>
-         <div class="card rounded-xl p-8 text-center flex-1 w-full"><i data-lucide="download" class="w-8 h-8 text-blue-600 mx-auto mb-4"></i>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Instant Access</h3>
-          <p class="text-gray-600">Receive your products instantly after payment. Download files, access bundles, and start using them right away.</p>
-         </div>
-        </div>
-       </div>
-      </div><!-- Additional Info Cards -->
-      <div class="grid md:grid-cols-3 gap-8 mt-16">
-       <div class="card rounded-xl p-8 border-l-4 border-green-500">
-        <div class="flex items-start gap-4"><i data-lucide="lock" class="w-6 h-6 text-green-600 flex-shrink-0 mt-1"></i>
-         <div>
-          <h4 class="text-lg font-bold text-gray-900 mb-2">100% Secure</h4>
-          <p class="text-gray-600 text-sm">Your payment information is encrypted and processed securely through trusted payment gateways.</p>
-         </div>
-        </div>
-       </div>
-       <div class="card rounded-xl p-8 border-l-4 border-purple-500">
-        <div class="flex items-start gap-4"><i data-lucide="zap" class="w-6 h-6 text-purple-600 flex-shrink-0 mt-1"></i>
-         <div>
-          <h4 class="text-lg font-bold text-gray-900 mb-2">Instant Delivery</h4>
-          <p class="text-gray-600 text-sm">No waiting. Get access to your digital products immediately after successful payment confirmation.</p>
-         </div>
-        </div>
-       </div>
-       <div class="card rounded-xl p-8 border-l-4 border-orange-500">
-        <div class="flex items-start gap-4"><i data-lucide="headphones" class="w-6 h-6 text-orange-600 flex-shrink-0 mt-1"></i>
-         <div>
-          <h4 class="text-lg font-bold text-gray-900 mb-2">24/7 Support</h4>
-          <p class="text-gray-600 text-sm">Our support team is available round the clock to help with any questions or issues you might have.</p>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    
-      <section style="text-align:center; padding: 50px;">
-  <h1>Our Team</h1>
-
-  <div style="display:flex; justify-content:center; gap:30px; flex-wrap:wrap; margin-top:40px;">
-
-   <section style="text-align:center; padding: 50px;">
-  <h1>Our Team</h1>
-
-  <div style="display:flex; justify-content:center; gap:30px; flex-wrap:wrap; margin-top:40px;">
-
-    <!-- Founder -->
-    <div style="border:1px solid #ddd; padding:20px; border-radius:15px; width:220px;">
-      <center><img src="1767877865064.jpg.jpeg" width="120" style="border-radius:40%;"></center><br>
-      <h2>Naval Singhal</h2>
-      <p><b>Founder & CEO</b></p>
-      <p>Naval is the visionary behind the platform, leading innovation and strategy to build a powerful digital experience for students.</p>
+   </div>
+  </nav><!-- HERO -->
+  <section id="hero" class="hero-gradient relative overflow-hidden min-h-[600px] flex items-center pt-24 pb-20">
+   <div class="blue-orb w-72 h-72 bg-sky/30 top-10 -left-20 glow-pulse"></div>
+   <div class="blue-orb w-96 h-96 bg-royal/20 bottom-0 right-0 glow-pulse" style="animation-delay:2s"></div>
+   <div class="absolute top-32 right-20 w-16 h-16 border-2 border-sky/20 rounded-xl float-anim hidden lg:block"></div>
+   <div class="absolute bottom-28 left-16 w-10 h-10 border-2 border-white/10 rounded-full float-anim-d hidden lg:block"></div>
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+    <div class="inline-flex items-center gap-2 bg-white/10 border border-white/10 rounded-full px-4 py-1.5 mb-6"><span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> <span class="text-white/80 text-xs font-medium tracking-wide">Launching Soon</span>
     </div>
-
-    <!-- Marketing Manager -->
-    <div style="border:1px solid #ddd; padding:20px; border-radius:15px; width:220px;">
-      <center><img src="IMG-20260324-WA0000.jpg.jpeg" width="120" style="border-radius:40%;"></center><br>
-      <h2>Chitransh Chandra</h2>
-      <p><b>Marketing Manager</b></p>
-      <p>Chitransh handles marketing strategies, promotions, and user engagement to grow the platform and reach the right audience.</p>
+    <h1 id="heroTitle" class="font-heading font-800 text-4xl sm:text-5xl lg:text-6xl text-white leading-tight max-w-4xl mx-auto">NAVIKO — Digital Products Made Simple</h1>
+    <p id="heroSub" class="mt-6 text-white/60 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">Discover premium digital resources designed to save your time, boost productivity, and help you grow smarter.</p>
+    <div class="mt-10 flex flex-wrap justify-center gap-4"><a href="#categories" class="bg-sky hover:bg-blue-600 text-white font-semibold px-8 py-3.5 rounded-full transition shadow-lg shadow-sky/30">Explore Products</a> <a href="#products" class="border border-white/20 hover:border-white/40 text-white/80 hover:text-white font-medium px-8 py-3.5 rounded-full transition">Coming Soon</a>
     </div>
-
-    <!-- Developer -->
-    <div style="border:1px solid #ddd; padding:20px; border-radius:15px; width:220px;">
-      <center><img src="img2026.jpg.jpeg" width="120" style="border-radius:40%;"></center><br>
-      <h2>Pratik Sanap</h2>
-      <p><b>Developer</b></p>
-      <p>Pratik is responsible for building and maintaining the website, ensuring smooth performance and modern design.</p>
+   </div>
+  </section><!-- ABOUT -->
+  <section id="about" class="py-24 bg-pale">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 fade-up">
+    <div class="max-w-3xl mx-auto text-center"><span class="text-sky font-semibold text-sm tracking-widest uppercase">About Us</span>
+     <h2 class="font-heading font-700 text-3xl sm:text-4xl text-navy mt-3">What is NAVIKO?</h2>
+     <p id="aboutText" class="mt-6 text-gray-600 text-lg leading-relaxed">NAVIKO is a digital products platform focused on providing high-quality digital tools, resources, and ready-to-use products for students, creators, entrepreneurs, and businesses. Our mission is to make useful digital resources simple, accessible, and valuable for everyone.</p>
     </div>
-
-    <!-- Adviser -->
-    <div style="border:1px solid #ddd; padding:20px; border-radius:15px; width:220px;">
-      <center><img src="IMG-20260324-WA0012.jpg.jpeg" width="120" style="border-radius:40%;"></center><br>
-      <h2>Ashvin Choudhary</h2>
-      <p><b>Adviser</b></p>
-      <p>Ashvin provides valuable guidance and strategic advice to help the platform grow and make better decisions.</p>
+    <div class="grid sm:grid-cols-3 gap-6 mt-14">
+     <div class="card-glass-light rounded-2xl p-6 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+      <div class="w-14 h-14 bg-sky/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+       <i data-lucide="zap" class="w-7 h-7 text-sky"></i>
+      </div>
+      <h3 class="font-heading font-600 text-navy">Simple &amp; Fast</h3>
+      <p class="text-gray-500 text-sm mt-2">Instant digital downloads, no complexity.</p>
+     </div>
+     <div class="card-glass-light rounded-2xl p-6 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+      <div class="w-14 h-14 bg-sky/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+       <i data-lucide="shield-check" class="w-7 h-7 text-sky"></i>
+      </div>
+      <h3 class="font-heading font-600 text-navy">Quality First</h3>
+      <p class="text-gray-500 text-sm mt-2">Every product is carefully crafted and reviewed.</p>
+     </div>
+     <div class="card-glass-light rounded-2xl p-6 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+      <div class="w-14 h-14 bg-sky/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+       <i data-lucide="users" class="w-7 h-7 text-sky"></i>
+      </div>
+      <h3 class="font-heading font-600 text-navy">For Everyone</h3>
+      <p class="text-gray-500 text-sm mt-2">Students, creators, and businesses alike.</p>
+     </div>
     </div>
-
-  </div>
-</section>
-
-  </div>
-</section>
-      </div>
+   </div>
+  </section><!-- CATEGORIES -->
+  <section id="categories" class="py-24 bg-white">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 fade-up">
+    <div class="text-center mb-14"><span class="text-sky font-semibold text-sm tracking-widest uppercase">Categories</span>
+     <h2 class="font-heading font-700 text-3xl sm:text-4xl text-navy mt-3">What We're Building</h2>
+     <p class="text-gray-500 mt-3 max-w-xl mx-auto">Premium digital products across categories designed for real-world use.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" id="catGrid"></div>
+   </div>
+  </section><!-- PRODUCTS -->
+  <section id="products" class="py-24 bg-pale">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 fade-up">
+    <div class="text-center max-w-2xl mx-auto">
+     <div class="w-20 h-20 bg-sky/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+      <i data-lucide="package" class="w-10 h-10 text-sky"></i>
      </div>
-    </section><!-- CONTACT SECTION -->
-    <section id="contact" class="bg-gradient-to-br from-blue-600 to-blue-800 py-20">
-     <div class="max-w-2xl mx-auto px-6 text-center text-white">
-      <h2 id="contactTitle" class="text-4xl font-bold mb-4">Get in Touch</h2>
-      <p id="contactSubtitle" class="text-lg text-blue-100 mb-8">We'd love to hear from you. Connect with our team today.</p>
-      <form class="flex flex-col sm:flex-row gap-3" onsubmit="event.preventDefault();"><input type="email" placeholder="Enter your email" class="flex-1 px-6 py-3 rounded-lg text-gray-900 focus-ring" required> <button type="submit" class="btn-primary rounded-lg px-8 py-3 bg-white text-blue-600 hover:bg-gray-100 focus-ring">Send</button>
-      </form>
+     <h2 class="font-heading font-700 text-3xl sm:text-4xl text-navy">Products Currently Not Available</h2>
+     <p class="mt-4 text-gray-500 text-lg leading-relaxed">We are preparing high-quality digital products for you. Stay connected — NAVIKO products are coming soon.</p>
+     <div class="mt-8 inline-flex items-center gap-3 bg-white border border-ice rounded-full px-6 py-3 shadow-sm"><span class="w-2.5 h-2.5 bg-amber-400 rounded-full animate-pulse"></span> <span class="text-gray-600 font-medium text-sm">Products under preparation</span>
      </div>
-    </section><!-- FOOTER -->
-    <footer class="bg-gray-900 text-gray-400 py-12">
-     <div class="max-w-6xl mx-auto px-6 text-center">
-      <div class="mb-8">
-       <a href="#privacy" class="text-gray-400 hover:text-white transition text-sm mr-6">Privacy Policy</a> <a href="#" class="text-gray-400 hover:text-white transition text-sm mr-6">Terms of Service</a> <a href="#contact" class="text-gray-400 hover:text-white transition text-sm">Contact</a>
+    </div>
+   </div>
+  </section><!-- FOUNDER -->
+  <section id="founder" class="py-24 bg-white">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 fade-up">
+    <div class="text-center mb-14"><span class="text-sky font-semibold text-sm tracking-widest uppercase">Meet the Founder</span>
+    </div>
+    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+     <!-- Photo Section -->
+     <div class="flex justify-center md:justify-start">
+      <div class="relative">
+       <!-- Glow background -->
+       <div class="absolute inset-0 bg-gradient-to-br from-sky to-royal rounded-3xl blur-2xl opacity-20 transform scale-105"></div><!-- Photo frame with gradient border -->
+       <div class="relative bg-gradient-to-br from-sky to-royal p-1 rounded-3xl shadow-2xl shadow-sky/30 hover:shadow-3xl hover:shadow-sky/40 transition-all duration-500 transform hover:scale-105">
+        <div class="bg-white rounded-3xl overflow-hidden">
+         <svg class="w-full h-full bg-gradient-to-br from-blue-50 to-blue-100" viewbox="0 0 400 480" xmlns="http://www.w3.org/2000/svg">
+          <!-- Head --> <circle cx="200" cy="120" r="60" fill="#d4a574" /> <!-- Hair --> <path d="M 140 120 Q 140 60 200 50 Q 260 60 260 120" fill="#2d2d2d" /> <!-- Shoulders and body --> <ellipse cx="200" cy="280" rx="90" ry="100" fill="#1e40af" /> <!-- Neck --> <rect x="180" y="170" width="40" height="50" fill="#d4a574" /> <!-- Shirt collar --> <path d="M 160 190 L 180 200 L 220 200 L 240 190" fill="#0ea5e9" opacity="0.8" /> <!-- Eyes --> <circle cx="180" cy="110" r="5" fill="#2d2d2d" /> <circle cx="220" cy="110" r="5" fill="#2d2d2d" /> <!-- Eyebrows --> <path d="M 175 100 Q 180 95 185 100" stroke="#2d2d2d" stroke-width="2" fill="none" /> <path d="M 215 100 Q 220 95 225 100" stroke="#2d2d2d" stroke-width="2" fill="none" /> <!-- Nose --> <path d="M 200 110 L 200 130" stroke="#2d2d2d" stroke-width="2" fill="none" /> <!-- Mouth --> <path d="M 190 140 Q 200 150 210 140" stroke="#2d2d2d" stroke-width="2" fill="none" />
+         </svg>
+        </div>
+       </div>
       </div>
-      <p>© 2024 Naviko. All rights reserved.</p>
-     </div>
-    </footer>
-   </main><!-- PRIVACY POLICY PAGE (Hidden, shows on demand) -->
-   <div id="privacyPage" class="hidden fixed inset-0 bg-white z-50 overflow-auto">
-    <div class="max-w-4xl mx-auto px-6 py-12">
-     <button onclick="document.getElementById('privacyPage').classList.add('hidden'); document.body.style.overflow='auto';" class="mb-8 flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold"> <i data-lucide="arrow-left" class="w-5 h-5"></i> Back </button>
-     <h1 class="text-5xl font-bold text-gray-900 mb-12">Privacy Policy</h1>
-     <div class="space-y-8 text-gray-700 leading-relaxed">
-      <div>
-       <h2 class="text-2xl font-bold text-gray-900 mb-3">1. Introduction</h2>
-       <p>At Naviko, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.</p>
-      </div>
-      <div>
-       <h2 class="text-2xl font-bold text-gray-900 mb-3">2. Information We Collect</h2>
-       <p class="mb-2">We may collect information about you in a variety of ways. The information we may collect on the site includes:</p>
-       <ul class="list-disc list-inside space-y-1 ml-2">
-        <li><strong>Personal Data:</strong> Name, email address, phone number, and other contact information you voluntarily provide.</li>
-        <li><strong>Payment Information:</strong> Transaction details necessary for processing purchases.</li>
-        <li><strong>Usage Data:</strong> Information about how you interact with our website, including pages visited and features used.</li>
-        <li><strong>Device Information:</strong> IP address, browser type, and device information.</li>
-       </ul>
-      </div>
-      <div>
-       <h2 class="text-2xl font-bold text-gray-900 mb-3">3. How We Use Your Information</h2>
-       <p class="mb-2">Naviko uses the collected information for various purposes:</p>
-       <ul class="list-disc list-inside space-y-1 ml-2">
-        <li>To provide and maintain our services</li>
-        <li>To process transactions and send related information</li>
-        <li>To send you updates, marketing communications, and promotional materials</li>
-        <li>To respond to your inquiries and provide customer support</li>
-        <li>To improve and optimize our website and services</li>
-        <li>To detect and prevent fraud or abuse</li>
-       </ul>
-      </div>
-      <div>
-       <h2 class="text-2xl font-bold text-gray-900 mb-3">4. Data Security</h2>
-       <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet is 100% secure.</p>
-      </div>
-      <div>
-       <h2 class="text-2xl font-bold text-gray-900 mb-3">5. Third-Party Sharing</h2>
-       <p>We do not sell, trade, or rent your personal information to third parties. We may share information with trusted partners who assist us in operating our website and conducting our business, provided they agree to keep this information confidential.</p>
-      </div>
-      <div>
-       <h2 class="text-2xl font-bold text-gray-900 mb-3">6. Cookies</h2>
-       <p>Our website may use cookies to enhance your experience. Cookies are small files that a site or its service provider transfers to your computer's hard drive through your Web browser. You can disable cookies through your browser settings, but this may affect your ability to use certain features.</p>
-      </div>
-      <div>
-       <h2 class="text-2xl font-bold text-gray-900 mb-3">7. Your Rights</h2>
-       <p class="mb-2">Depending on your location, you may have the following rights:</p>
-       <ul class="list-disc list-inside space-y-1 ml-2">
-        <li>The right to access your personal data</li>
-        <li>The right to request deletion of your data</li>
-        <li>The right to correct inaccurate data</li>
-        <li>The right to opt-out of marketing communications</li>
-       </ul>
-      </div>
-      <div>
-       <h2 class="text-2xl font-bold text-gray-900 mb-3">8. Contact Us</h2>
-       <p>If you have questions about this Privacy Policy or our privacy practices, please contact us at:</p>
-       <p class="mt-3 text-gray-900 font-semibold">Email: privacy@naviko.com</p>
-      </div>
-      <div>
-       <h2 class="text-2xl font-bold text-gray-900 mb-3">9. Policy Updates</h2>
-       <p>We reserve the right to update this Privacy Policy at any time. Changes will be effective immediately upon posting to the website. Your continued use of the site following the posting of updated terms means that you accept and agree to the changes.</p>
+     </div><!-- Text Section -->
+     <div class="text-center md:text-left">
+      <p class="text-sky font-semibold text-sm tracking-widest uppercase">Founder &amp; Visionary</p>
+      <h2 id="founderName" class="font-heading font-800 text-4xl text-navy mt-2">Naval Singhal</h2>
+      <p id="founderRole" class="text-sky font-semibold text-lg mt-1">Founder &amp; Owner, NAVIKO</p>
+      <div class="h-1 w-12 bg-gradient-to-r from-sky to-royal rounded-full mt-4 md:mx-0 mx-auto"></div>
+      <p id="founderBio" class="mt-6 text-gray-600 leading-relaxed text-lg">Naval Singhal is a young entrepreneur focused on building modern digital platforms that simplify access to useful online resources. Through NAVIKO, he aims to create a reliable digital marketplace where students, creators, and professionals can easily access high-quality digital tools and assets.</p><!-- Social Icons -->
+      <div class="flex gap-4 mt-8 md:justify-start justify-center">
+       <a href="#" class="w-12 h-12 bg-gradient-to-br from-sky/10 to-royal/10 hover:from-sky hover:to-royal border border-sky/30 rounded-full flex items-center justify-center text-sky hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-sky/30" aria-label="LinkedIn"> <i data-lucide="linkedin" class="w-5 h-5"></i> </a> <a href="#" class="w-12 h-12 bg-gradient-to-br from-sky/10 to-royal/10 hover:from-sky hover:to-royal border border-sky/30 rounded-full flex items-center justify-center text-sky hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-sky/30" aria-label="Instagram"> <i data-lucide="instagram" class="w-5 h-5"></i> </a> <a href="#" class="w-12 h-12 bg-gradient-to-br from-sky/10 to-royal/10 hover:from-sky hover:to-royal border border-sky/30 rounded-full flex items-center justify-center text-sky hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-sky/30" aria-label="Twitter"> <i data-lucide="twitter" class="w-5 h-5"></i> </a>
       </div>
      </div>
     </div>
    </div>
-  </div>
+  </section><!-- WHY -->
+  <section id="why" class="py-24 bg-pale">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 fade-up">
+    <div class="text-center mb-14"><span class="text-sky font-semibold text-sm tracking-widest uppercase">Why NAVIKO</span>
+     <h2 class="font-heading font-700 text-3xl sm:text-4xl text-navy mt-3">Why Choose Us</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto" id="whyGrid"></div>
+   </div>
+  </section><!-- NOTIFY -->
+  <section id="notify" class="py-24 bg-gradient-to-br from-navy to-royal relative overflow-hidden">
+   <div class="blue-orb w-64 h-64 bg-sky/20 -top-10 -right-10 glow-pulse"></div>
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 fade-up">
+    <div class="max-w-xl mx-auto text-center">
+     <h2 class="font-heading font-700 text-3xl sm:text-4xl text-white">Get Notified When We Launch</h2>
+     <p class="mt-4 text-white/50">Be the first to access NAVIKO's premium digital products.</p>
+     <form id="notifyForm" class="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto"><label for="emailInput" class="sr-only">Email address</label> <input id="emailInput" type="email" placeholder="Enter your email" required class="flex-1 px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-sky text-sm"> <button type="submit" class="bg-sky hover:bg-blue-600 text-white font-semibold px-7 py-3.5 rounded-full transition shadow-lg shadow-sky/30 text-sm whitespace-nowrap">Notify Me</button>
+     </form>
+     <p id="notifyMsg" class="mt-4 text-green-400 text-sm hidden"></p>
+    </div>
+   </div>
+  </section><!-- FOOTER -->
+  <footer class="bg-navy border-t border-white/5 py-16">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+     <div><span class="font-heading font-800 text-xl text-white">NAV<span class="text-sky">IKO</span></span>
+      <p class="text-white/40 text-sm mt-3 leading-relaxed">Premium digital products platform. Simple, accessible, and valuable for everyone.</p>
+     </div>
+     <div>
+      <h4 class="font-heading font-600 text-white text-sm mb-4">Quick Links</h4>
+      <div class="space-y-2">
+       <a href="#about" class="block text-white/40 hover:text-white/70 text-sm transition">About</a><a href="#categories" class="block text-white/40 hover:text-white/70 text-sm transition">Categories</a><a href="#products" class="block text-white/40 hover:text-white/70 text-sm transition">Products</a><a href="#founder" class="block text-white/40 hover:text-white/70 text-sm transition">Founder</a>
+      </div>
+     </div>
+     <div>
+      <h4 class="font-heading font-600 text-white text-sm mb-4">Categories</h4>
+      <div class="space-y-2">
+       <span class="block text-white/40 text-sm">Business Templates</span><span class="block text-white/40 text-sm">AI Prompt Packs</span><span class="block text-white/40 text-sm">eBooks</span><span class="block text-white/40 text-sm">Notion Templates</span>
+      </div>
+     </div>
+     <div>
+      <h4 class="font-heading font-600 text-white text-sm mb-4">Connect</h4>
+      <p class="text-white/40 text-sm">Founder: Naval Singhal</p><a href="#notify" class="inline-block mt-4 text-sky hover:text-blue-400 text-sm font-medium transition">Get Notified →</a>
+     </div>
+    </div>
+    <div class="border-t border-white/5 mt-12 pt-8 text-center">
+     <p id="copyright" class="text-white/30 text-sm">© 2026 NAVIKO. All Rights Reserved.</p>
+    </div>
+   </div>
+  </footer>
   <script>
-    const defaultConfig = {
-      brand_name: "Naviko",
-      hero_title: "Digital products. Simplified.",
-      hero_subtitle: "Premium templates, bundles, and resources that help creators, marketers, and entrepreneurs save time and grow faster.",
-      cta_button: "Get Started",
-      products_title: "Our Products",
-      products_subtitle: "Browse our collection",
-      contact_title: "Get in Touch",
-      contact_subtitle: "We'd love to hear from you. Connect with our team today.",
-      primary_color: "#2563eb",
-      text_color: "#1a1a1a",
-      background_color: "#ffffff"
-    };
+// Categories data
+const cats=[
+{icon:'briefcase',name:'Business Templates',desc:'Professional templates for proposals, plans & more.'},
+{icon:'cpu',name:'AI Prompt Packs',desc:'Curated prompts for ChatGPT, Midjourney & more.'},
+{icon:'book-open',name:'eBooks',desc:'Guides and handbooks across trending topics.'},
+{icon:'layout',name:'Notion Templates',desc:'Ready-to-use Notion setups for productivity.'},
+{icon:'pencil',name:'Kids Worksheets',desc:'Fun, educational printable worksheets.'},
+{icon:'share-2',name:'Social Media Bundles',desc:'Content kits for Instagram, LinkedIn & more.'},
+{icon:'clock',name:'Productivity Tools',desc:'Planners, trackers & time management tools.'},
+{icon:'palette',name:'Digital Design Resources',desc:'Graphics, mockups & creative assets.'}
+];
+const catGrid=document.getElementById('catGrid');
+cats.forEach((c,i)=>{
+const d=document.createElement('div');
+d.className='card-glass-light rounded-2xl p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative';
+d.style.animationDelay=i*80+'ms';
+d.innerHTML=`<div class="absolute top-4 right-4 bg-amber-50 text-amber-600 text-[10px] font-semibold px-2.5 py-1 rounded-full">Coming Soon</div><div class="w-12 h-12 bg-sky/10 rounded-xl flex items-center justify-center mb-4"><i data-lucide="${c.icon}" class="w-6 h-6 text-sky"></i></div><h3 class="font-heading font-600 text-navy">${c.name}</h3><p class="text-gray-500 text-sm mt-2">${c.desc}</p>`;
+catGrid.appendChild(d);
+});
 
-    let allProducts = [];
+// Why points
+const whyPts=[
+{icon:'download',t:'Ready-to-use Resources',d:'Download and start using instantly.'},
+{icon:'layout',t:'Simple & Clean Platform',d:'No clutter, just what you need.'},
+{icon:'users',t:'For All Audiences',d:'Students, creators & businesses.'},
+{icon:'tag',t:'Affordable Solutions',d:'Premium quality at fair prices.'},
+{icon:'check-circle',t:'Quality & Usability',d:'Every product is tested and refined.'}
+];
+const wg=document.getElementById('whyGrid');
+whyPts.forEach(p=>{
+const d=document.createElement('div');
+d.className='flex items-start gap-4 bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300';
+d.innerHTML=`<div class="w-10 h-10 bg-sky/10 rounded-lg flex items-center justify-center shrink-0"><i data-lucide="${p.icon}" class="w-5 h-5 text-sky"></i></div><div><h4 class="font-heading font-600 text-navy text-sm">${p.t}</h4><p class="text-gray-500 text-xs mt-1">${p.d}</p></div>`;
+wg.appendChild(d);
+});
 
-    const colorMap = {
-      'layout-template': 'blue',
-      'book-open': 'purple',
-      'video': 'green',
-      'zap': 'cyan',
-      'brain': 'pink',
-      'file-text': 'amber',
-      'sparkles': 'lime',
-      'heart': 'sky',
-      'book': 'orange',
-      'image': 'yellow',
-      'trending-up': 'lime',
-      'shirt': 'pink',
-      'check-circle': 'emerald',
-      'package': 'indigo',
-      'search': 'blue'
-    };
+// Mobile menu
+document.getElementById('menuBtn').addEventListener('click',()=>{
+document.getElementById('mobileMenu').classList.toggle('hidden');
+});
+document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('hidden')));
 
-    function createProductElement(product) {
-      const colorClass = colorMap[product.icon] || 'blue';
-      const bgColor = `${colorClass}-100`;
-      const textColor = `${colorClass}-600`;
+// Notify form
+document.getElementById('notifyForm').addEventListener('submit',e=>{
+e.preventDefault();
+const msg=document.getElementById('notifyMsg');
+msg.textContent="Thank you! We'll notify you when NAVIKO launches.";
+msg.classList.remove('hidden');
+document.getElementById('emailInput').value='';
+setTimeout(()=>msg.classList.add('hidden'),4000);
+});
 
-      const div = document.createElement('div');
-      div.className = 'card rounded-xl p-6 animate-in';
-      div.dataset.productId = product.__backendId;
-      div.innerHTML = `
-        <div class="w-12 h-12 bg-${bgColor} rounded-lg flex items-center justify-center mb-3">
-          <i data-lucide="${product.icon}" class="w-6 h-6 text-${textColor}"></i>
-        </div>
-        <h3 class="text-lg font-bold text-gray-900 mb-2">${product.name}</h3>
-        <p class="text-${textColor} font-semibold text-sm mb-4">${product.category}</p>
-        <p class="text-gray-600 text-sm mb-4">${product.description}</p>
-        <div class="flex items-center gap-2">
-          <span class="text-2xl font-bold text-gray-900">$${product.price}</span>
-          <button class="ml-auto btn-primary rounded-lg px-4 py-2 text-xs focus-ring add-to-cart">
-            <i data-lucide="shopping-cart" class="w-4 h-4 inline mr-1"></i> Add
-          </button>
-          <button class="btn-secondary rounded-lg px-3 py-2 text-xs focus-ring delete-product" title="Delete">
-            <i data-lucide="trash-2" class="w-4 h-4"></i>
-          </button>
-        </div>
-      `;
+// Scroll animations
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.15});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
-      const deleteBtn = div.querySelector('.delete-product');
-      deleteBtn.addEventListener('click', async () => {
-        if (confirm('Delete this product?')) {
-          const result = await window.dataSdk.delete(product);
-          if (!result.isOk) {
-            alert('Failed to delete product: ' + result.error.message);
-          }
-        }
-      });
+lucide.createIcons();
 
-      div.querySelector('.add-to-cart').addEventListener('click', () => {
-        alert(`${product.name} added to cart! Price: $${product.price}`);
-      });
+// Element SDK
+const defaultConfig={
+hero_headline:'NAVIKO — Digital Products Made Simple',
+hero_subheadline:'Discover premium digital resources designed to save your time, boost productivity, and help you grow smarter.',
+about_text:'NAVIKO is a digital products platform focused on providing high-quality digital tools, resources, and ready-to-use products for students, creators, entrepreneurs, and businesses. Our mission is to make useful digital resources simple, accessible, and valuable for everyone.',
+founder_name:'Naval Singhal',
+founder_role:'Founder & Owner, NAVIKO',
+founder_bio:'Naval Singhal is a young entrepreneur with a strong interest in digital business, online platforms, branding, and startup building. Through NAVIKO, he aims to create a trusted digital product platform where useful resources can be made simple, accessible, and valuable for everyone.',
+copyright_text:'© 2026 NAVIKO. All Rights Reserved.',
+background_color:'#0a1628',
+surface_color:'#eff6ff',
+text_color:'#0a1628',
+primary_action_color:'#3b82f6',
+secondary_action_color:'#1e40af',
+font_family:'Outfit',
+font_size:16
+};
 
-      return div;
-    }
+function applyConfig(c){
+document.getElementById('heroTitle').textContent=c.hero_headline||defaultConfig.hero_headline;
+document.getElementById('heroSub').textContent=c.hero_subheadline||defaultConfig.hero_subheadline;
+document.getElementById('aboutText').textContent=c.about_text||defaultConfig.about_text;
+document.getElementById('founderName').textContent=c.founder_name||defaultConfig.founder_name;
+document.getElementById('founderRole').textContent=c.founder_role||defaultConfig.founder_role;
+document.getElementById('founderBio').textContent=c.founder_bio||defaultConfig.founder_bio;
+document.getElementById('copyright').textContent=c.copyright_text||defaultConfig.copyright_text;
 
-    const dataHandler = {
-      onDataChanged(data) {
-        allProducts = data;
-        const container = document.getElementById('productsContainer');
-        container.innerHTML = '';
-        data.forEach(product => {
-          container.appendChild(createProductElement(product));
-        });
-        if (window.lucide) lucide.createIcons();
-      }
-    };
+const ff=(c.font_family||defaultConfig.font_family)+', DM Sans, sans-serif';
+const bs=c.font_size||defaultConfig.font_size;
+document.querySelectorAll('.font-heading').forEach(el=>el.style.fontFamily=ff);
+document.body.style.fontFamily=`DM Sans, ${ff}`;
+document.getElementById('heroTitle').style.fontSize=bs*3+'px';
+document.getElementById('heroSub').style.fontSize=bs*1.2+'px';
 
-    function applyConfig(config) {
-      const finalConfig = { ...defaultConfig, ...config };
-      
-      document.getElementById('brandName').textContent = finalConfig.brand_name;
-      document.getElementById('heroTitle').textContent = finalConfig.hero_title;
-      document.getElementById('heroSubtitle').textContent = finalConfig.hero_subtitle;
-      document.getElementById('ctaButton').textContent = finalConfig.cta_button;
-      document.getElementById('productsTitle').textContent = finalConfig.products_title;
-      document.getElementById('productsSubtitle').textContent = finalConfig.products_subtitle;
-      document.getElementById('contactTitle').textContent = finalConfig.contact_title;
-      document.getElementById('contactSubtitle').textContent = finalConfig.contact_subtitle;
-    }
+const bg=c.background_color||defaultConfig.background_color;
+const sf=c.surface_color||defaultConfig.surface_color;
+const tx=c.text_color||defaultConfig.text_color;
+const pa=c.primary_action_color||defaultConfig.primary_action_color;
+const sa=c.secondary_action_color||defaultConfig.secondary_action_color;
 
-    // Initialize Data SDK
-    if (window.dataSdk) {
-      window.dataSdk.init(dataHandler).catch(e => console.error('Failed to init data SDK:', e));
-    }
+document.querySelectorAll('.hero-gradient').forEach(el=>el.style.background=`linear-gradient(135deg,${bg} 0%,${sa} 100%)`);
+document.querySelectorAll('.bg-pale, #about, #why').forEach(el=>el.style.backgroundColor=sf);
+document.querySelectorAll('h2.text-navy, h3.text-navy, h4.text-navy').forEach(el=>el.style.color=tx);
+document.querySelectorAll('.bg-sky, button[type=submit]').forEach(el=>{el.style.backgroundColor=pa});
+document.querySelectorAll('.text-sky').forEach(el=>el.style.color=pa);
+document.querySelector('#notify').style.background=`linear-gradient(135deg,${bg},${sa})`;
+document.querySelector('footer').style.backgroundColor=bg;
+document.querySelector('nav').style.background=bg+'dd';
+}
 
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange: async (config) => {
-          applyConfig(config);
-        },
-        mapToCapabilities: (config) => ({
-          recolorables: [
-            {
-              get: () => config.primary_color || defaultConfig.primary_color,
-              set: (value) => {
-                config.primary_color = value;
-                window.elementSdk.setConfig({ primary_color: value });
-              }
-            }
-          ],
-          borderables: [],
-          fontEditable: undefined,
-          fontSizeable: undefined
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ["brand_name", config.brand_name || defaultConfig.brand_name],
-          ["hero_title", config.hero_title || defaultConfig.hero_title],
-          ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
-          ["cta_button", config.cta_button || defaultConfig.cta_button],
-          ["products_title", config.products_title || defaultConfig.products_title],
-          ["products_subtitle", config.products_subtitle || defaultConfig.products_subtitle],
-          ["contact_title", config.contact_title || defaultConfig.contact_title],
-          ["contact_subtitle", config.contact_subtitle || defaultConfig.contact_subtitle]
-        ])
-      });
-    }
-
-    // Default products - loaded on first visit
-    async function seedDefaultProducts() {
-      if (allProducts.length === 0) {
-        const defaultProducts = [
-          {
-            id: 'prod-1',
-            name: '10,000+ CANVAS TEMPLATES',
-            price: 99,
-            category: 'Templates',
-            description: 'Massive collection of 10,000+ professional canvas templates for all designs.',
-            icon: 'layout-template'
-          },
-          {
-            id: 'prod-2',
-            name: '11,000+ KIDS WORKSHEETS',
-            price: 79,
-            category: 'Educational',
-            description: 'Complete collection of 11,000+ educational kids worksheets.',
-            icon: 'book-open'
-          },
-          {
-            id: 'prod-3',
-            name: '500+ HULK REELS BUNDLE',
-            price: 49,
-            category: 'Reels Bundle',
-            description: '500+ high-energy Hulk-themed reels ready to use.',
-            icon: 'video'
-          },
-          {
-            id: 'prod-4',
-            name: '500+ OBJECT TALKING REELS BUNDLE',
-            price: 49,
-            category: 'Reels Bundle',
-            description: '500+ entertaining object talking reels for social media.',
-            icon: 'video'
-          },
-          {
-            id: 'prod-5',
-            name: '1500+ PREMANANDJI MAHARAJ REELS BUNDLE',
-            price: 59,
-            category: 'Reels Bundle',
-            description: '1500+ spiritual and motivational Premanandji Maharaj reels.',
-            icon: 'zap'
-          },
-          {
-            id: 'prod-6',
-            name: '2500+ CARS 4K REELS BUNDLE',
-            price: 69,
-            category: 'Reels Bundle',
-            description: '2500+ stunning 4K car reels for automotive content.',
-            icon: 'video'
-          },
-          {
-            id: 'prod-7',
-            name: '4,000+ N8N WORKFLOW AUTOMATION',
-            price: 89,
-            category: 'Automation',
-            description: '4,000+ N8N workflow automation templates and scripts.',
-            icon: 'sparkles'
-          },
-          {
-            id: 'prod-8',
-            name: 'AI ULTIMATE COLLECTION 2026',
-            price: 99,
-            category: 'AI Resources',
-            description: 'Ultimate collection of AI resources and tools for 2026.',
-            icon: 'brain'
-          },
-          {
-            id: 'prod-9',
-            name: 'EBOOKS',
-            price: 39,
-            category: 'Digital Books',
-            description: 'Comprehensive collection of digital eBooks on various topics.',
-            icon: 'file-text'
-          },
-          {
-            id: 'prod-10',
-            name: 'LATEST - AI MONKEY VLOGING BUNDLE',
-            price: 59,
-            category: 'Vlogs',
-            description: 'Latest AI-powered monkey vlogging bundle with editing templates.',
-            icon: 'video'
-          },
-          {
-            id: 'prod-11',
-            name: 'LUXURY CLIPS',
-            price: 44,
-            category: 'Video Clips',
-            description: 'High-end luxury lifestyle video clips for premium content.',
-            icon: 'video'
-          },
-          {
-            id: 'prod-12',
-            name: 'MAD SCIENTIST REELS BUNDLE',
-            price: 49,
-            category: 'Reels Bundle',
-            description: '500+ entertaining mad scientist themed reels.',
-            icon: 'video'
-          },
-          {
-            id: 'prod-13',
-            name: 'SATISFYING REELS',
-            price: 39,
-            category: 'Reels',
-            description: 'Collection of satisfying and ASMR reels for engagement.',
-            icon: 'video'
-          },
-          {
-            id: 'prod-14',
-            name: 'ULTIMATE PROMPT COLLECTION',
-            price: 49,
-            category: 'AI Resources',
-            description: 'Ultimate collection of ChatGPT and AI prompts.',
-            icon: 'brain'
-          },
-          {
-            id: 'prod-15',
-            name: '22,00+ GYM & FITNESS REELS',
-            price: 79,
-            category: 'Fitness',
-            description: '2,200+ gym and fitness workout reels for motivation.',
-            icon: 'zap'
-          },
-          {
-            id: 'prod-16',
-            name: 'AI LIFESTYLE MOTIVATIONAL BUNDLE',
-            price: 59,
-            category: 'Motivation',
-            description: 'AI-generated lifestyle motivational content bundle.',
-            icon: 'heart'
-          },
-          {
-            id: 'prod-17',
-            name: 'BUSINESS TIPS HINDI',
-            price: 34,
-            category: 'Education',
-            description: 'Business tips and strategies in Hindi language.',
-            icon: 'trending-up'
-          },
-          {
-            id: 'prod-18',
-            name: 'CHINESE TIPS HINDI',
-            price: 29,
-            category: 'Education',
-            description: 'Chinese language tips and learning resources in Hindi.',
-            icon: 'book-open'
-          },
-          {
-            id: 'prod-19',
-            name: 'FESTIVAL POSTERS',
-            price: 24,
-            category: 'Design',
-            description: 'Ready-to-use festival poster designs for all occasions.',
-            icon: 'image'
-          },
-          {
-            id: 'prod-20',
-            name: 'GYM GIRLS MOTIVATION REELS',
-            price: 39,
-            category: 'Fitness',
-            description: 'Motivational reels for girls in gym and fitness.',
-            icon: 'video'
-          },
-          {
-            id: 'prod-21',
-            name: 'KAPIL SHARMA REELS',
-            price: 44,
-            category: 'Comedy',
-            description: 'Comedy and funny reels inspired by Kapil Sharma style.',
-            icon: 'video'
-          },
-          {
-            id: 'prod-22',
-            name: 'KILLER CHATGPT PROMPTS HARNESS',
-            price: 54,
-            category: 'AI Resources',
-            description: 'Advanced ChatGPT prompts to harness AI power effectively.',
-            icon: 'brain'
-          },
-          {
-            id: 'prod-23',
-            name: 'MOTIVATION REELS',
-            price: 34,
-            category: 'Motivation',
-            description: 'Inspirational and motivational reels for daily boost.',
-            icon: 'zap'
-          },
-          {
-            id: 'prod-24',
-            name: 'MOTIVATIONAL AI BUNDLE',
-            price: 59,
-            category: 'Motivation',
-            description: 'Complete bundle of AI-generated motivational content.',
-            icon: 'heart'
-          },
-          {
-            id: 'prod-25',
-            name: 'OMEGLE VIDEO',
-            price: 29,
-            category: 'Video Content',
-            description: 'Omegle-style video interaction templates and scripts.',
-            icon: 'video'
-          },
-          {
-            id: 'prod-26',
-            name: 'SANATAN DHARMA REELS',
-            price: 49,
-            category: 'Spiritual',
-            description: 'Spiritual Sanatan Dharma educational and devotional reels.',
-            icon: 'zap'
-          },
-          {
-            id: 'prod-27',
-            name: 'SHARK TANK REELS',
-            price: 44,
-            category: 'Business',
-            description: 'Shark Tank inspired business and entrepreneurship reels.',
-            icon: 'trending-up'
-          },
-          {
-            id: 'prod-28',
-            name: 'STOCK MARKET REELS',
-            price: 49,
-            category: 'Finance',
-            description: 'Educational stock market and trading reels.',
-            icon: 'trending-up'
-          },
-          {
-            id: 'prod-29',
-            name: 'TRADING TIPS REELS BUNDLE',
-            price: 59,
-            category: 'Finance',
-            description: 'Complete trading tips and strategies reels bundle.',
-            icon: 'trending-up'
-          },
-          {
-            id: 'prod-30',
-            name: 'T-SHIRT DESIGNS',
-            price: 39,
-            category: 'Design',
-            description: 'Professional t-shirt design templates for print-on-demand.',
-            icon: 'shirt'
-          }
-        ];
-
-        for (const product of defaultProducts) {
-          const result = await window.dataSdk.create(product);
-          if (!result.isOk) {
-            console.error('Failed to seed product:', product.name, result.error);
-          }
-        }
-      }
-    }
-
-    // Add Product Handler
-    document.getElementById('addProductBtn').addEventListener('click', async () => {
-      const name = prompt('Product Name:');
-      if (!name) return;
-      
-      const price = parseFloat(prompt('Price ($):'));
-      if (isNaN(price)) return;
-      
-      const category = prompt('Category (e.g., Templates, Bundles):');
-      if (!category) return;
-
-      const description = prompt('Description:');
-      if (!description) return;
-
-      const newProduct = {
-        id: 'prod-' + Date.now(),
-        name: name,
-        price: price,
-        category: category,
-        description: description,
-        icon: 'package'
-      };
-
-      const result = await window.dataSdk.create(newProduct);
-      if (!result.isOk) {
-        alert('Failed to add product: ' + result.error.message);
-      }
-    });
-
-    // Seed products on first load if empty
-    setTimeout(() => {
-      if (allProducts.length === 0) {
-        seedDefaultProducts();
-      }
-    }, 500);
-
-    applyConfig(defaultConfig);
-    if (window.lucide) lucide.createIcons();
-
-    <!-- Privacy Policy link handler -->
-    document.addEventListener('click', (e) => {
-      if (e.target.getAttribute('href') === '#privacy') {
-        e.preventDefault();
-        document.getElementById('privacyPage').classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-        if (window.lucide) lucide.createIcons();
-      }
-    });
-  </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e141a57d7393ae6',t:'MTc3NDMzODgxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+window.elementSdk.init({
+defaultConfig,
+onConfigChange:async(c)=>applyConfig(c),
+mapToCapabilities:(c)=>({
+recolorables:[
+{get:()=>c.background_color||defaultConfig.background_color,set:v=>{c.background_color=v;window.elementSdk.setConfig({background_color:v})}},
+{get:()=>c.surface_color||defaultConfig.surface_color,set:v=>{c.surface_color=v;window.elementSdk.setConfig({surface_color:v})}},
+{get:()=>c.text_color||defaultConfig.text_color,set:v=>{c.text_color=v;window.elementSdk.setConfig({text_color:v})}},
+{get:()=>c.primary_action_color||defaultConfig.primary_action_color,set:v=>{c.primary_action_color=v;window.elementSdk.setConfig({primary_action_color:v})}},
+{get:()=>c.secondary_action_color||defaultConfig.secondary_action_color,set:v=>{c.secondary_action_color=v;window.elementSdk.setConfig({secondary_action_color:v})}}
+],
+borderables:[],
+fontEditable:{get:()=>c.font_family||defaultConfig.font_family,set:v=>{c.font_family=v;window.elementSdk.setConfig({font_family:v})}},
+fontSizeable:{get:()=>c.font_size||defaultConfig.font_size,set:v=>{c.font_size=v;window.elementSdk.setConfig({font_size:v})}}
+}),
+mapToEditPanelValues:(c)=>new Map([
+['hero_headline',c.hero_headline||defaultConfig.hero_headline],
+['hero_subheadline',c.hero_subheadline||defaultConfig.hero_subheadline],
+['about_text',c.about_text||defaultConfig.about_text],
+['founder_name',c.founder_name||defaultConfig.founder_name],
+['founder_role',c.founder_role||defaultConfig.founder_role],
+['founder_bio',c.founder_bio||defaultConfig.founder_bio],
+['copyright_text',c.copyright_text||defaultConfig.copyright_text]
+])
+});
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f4dadb056960abd',t:'MTc3NzYyNjg5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
